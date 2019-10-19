@@ -31,7 +31,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText area;
     private EditText correo;
     private EditText pass;
-    private Spinner rol;
+    //private Spinner rol;
     private Button registro;
 
     private String nom;
@@ -42,7 +42,7 @@ public class RegistroActivity extends AppCompatActivity {
     private String are;
     private String mail;
     private String password;
-    private String tipoRol;
+    //private String tipoRol;
 
     FirebaseAuth autenticacion;
     DatabaseReference bdApp;
@@ -64,12 +64,12 @@ public class RegistroActivity extends AppCompatActivity {
         area=(EditText)findViewById(R.id.campoArea);
         correo=(EditText)findViewById(R.id.campoMail);
         pass=(EditText)findViewById(R.id.campoPass);
-        rol=(Spinner)findViewById(R.id.tipo);
+        //rol=(Spinner)findViewById(R.id.tipo);
         registro=(Button)findViewById(R.id.btRegistrar);
 
-        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.roles,android.R.layout.simple_spinner_item);
+        /*ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.roles,android.R.layout.simple_spinner_item);
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rol.setAdapter(adaptador);
+        rol.setAdapter(adaptador);*/
 
         registro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +82,7 @@ public class RegistroActivity extends AppCompatActivity {
                 are=area.getText().toString().trim();
                 mail=correo.getText().toString().trim();
                 password=pass.getText().toString().trim();
-                tipoRol=rol.getSelectedItem().toString().trim();
+      //          tipoRol=rol.getSelectedItem().toString().trim();
 
                 if(!nom.isEmpty() && !ape.isEmpty() && !apell.isEmpty() && !ced.isEmpty() && !tel.isEmpty() && !are.isEmpty() && !mail.isEmpty() && !password.isEmpty()){
 
@@ -117,7 +117,7 @@ public class RegistroActivity extends AppCompatActivity {
                     datos.put("cedula",ced);
                     datos.put("telefono",tel);
                     datos.put("area", are);
-                    datos.put("rol", tipoRol);
+                    //datos.put("rol", tipoRol);
                     datos.put("correo",mail);
                     datos.put("password", password);
 
@@ -134,8 +134,6 @@ public class RegistroActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
                 }
                 else{
                     Toast.makeText(RegistroActivity.this, "No se pudo registrar el usuario", Toast.LENGTH_SHORT).show();

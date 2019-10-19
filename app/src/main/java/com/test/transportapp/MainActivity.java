@@ -82,6 +82,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intento = new Intent(MainActivity.this, RegistroActivity.class);
             startActivity(intento);
         }
+        else if(id == R.id.nav_slideshow) {
+            Intent intento = new Intent(MainActivity.this, VehiculoActivity.class);
+            startActivity(intento);
+        }
+        else if(id == R.id.nav_tools) {
+            Intent intento = new Intent(MainActivity.this, AgendaActivity.class);
+            startActivity(intento);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

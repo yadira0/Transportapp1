@@ -19,12 +19,17 @@
     <string name="menu_share">Eliminar Usuario</string>
     <string name="menu_ver">Agendar Recorrido</string>
     <string name="menu_send">Cerrar Sesión</string>
-    <string name="menu_otro">otromenu</string>
-    <string name="menu_des">nose</string>
+    <string name="origen">Ingrese el Origen</string>
+    <string name="destino">Ingrese el Destino</string>
     <string name="regArea">Ingrese Área</string>
     <string name="regNom">Ingrese Nombre</string>
     <string name="regApe">Ingrese Primer Apellido</string>
     <string name="regApell">Ingrese Segundo Apellido</string>
     <string name="regTel">Ingrese Número Teléfono</string>
     <string name="regCed">Ingrese Número Cedula</string>
+    <string name="regMar">Ingrese la marca del vehiculo</string>
+    <string name="regPas">Ingrese Número Pasajeros</string>
+    <string name="regModelo">Ingrese Modelo</string>
+    <string name="regPlaca">Ingrese la placa del vehiculo</string>
+    <string name="regEstado">Ingrese Estado</string>
 </resources>
