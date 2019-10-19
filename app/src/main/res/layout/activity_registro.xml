@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".RegistroActivity">
+
+    <EditText
+        android:id="@+id/campoNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/regNom"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoApellido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/regApe"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoApellido2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/regApell"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoCedula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/regCed"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/regTel"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/regArea"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/prompt_email"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <EditText
+        android:id="@+id/campoPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/prompt_password"
+        android:selectAllOnFocus="true" ></EditText>
+
+    <Spinner
+        android:id="@+id/tipo"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/roles"></Spinner>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/btRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="Registrar"
+            android:textColor="@android:color/white"></Button>
+
+    </LinearLayout>
+
+</LinearLayout>

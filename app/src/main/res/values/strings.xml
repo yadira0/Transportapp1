@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">TransportAPP</string>
+    <string name="title_activity_login">TransportApp</string>
+    <string name="prompt_password">Ingrese la contraseña</string>
+    <string name="action_sign_in_short">Iniciando sesión</string>//
+    <string name="prompt_email">Ingrese el correo</string>
+    <string name="title_activity_menu">TransportApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">BIENVENIDO !</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_gallery">Registrar Usuario</string>
+    <string name="menu_slideshow">Registrar Vehículo</string>
+    <string name="menu_tools">Actualizar Datos</string>
+    <string name="menu_share">Eliminar Usuario</string>
+    <string name="menu_ver">Agendar Recorrido</string>
+    <string name="menu_send">Cerrar Sesión</string>
+    <string name="menu_otro">otromenu</string>
+    <string name="menu_des">nose</string>
+    <string name="regArea">Ingrese Área</string>
+    <string name="regNom">Ingrese Nombre</string>
+    <string name="regApe">Ingrese Primer Apellido</string>
+    <string name="regApell">Ingrese Segundo Apellido</string>
+    <string name="regTel">Ingrese Número Teléfono</string>
+    <string name="regCed">Ingrese Número Cedula</string>
+</resources>
