@@ -3,6 +3,7 @@ package com.test.transportapp;
 public class datosObtenidosLogin {
     String correo;
     String rol;
+    String nombre;
 
     public datosObtenidosLogin() {
 
@@ -22,5 +23,13 @@ public class datosObtenidosLogin {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

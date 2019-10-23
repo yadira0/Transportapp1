@@ -5,80 +5,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center_vertical"
+    android:padding="30dp"
     tools:context=".RegistroActivity">
 
-    <EditText
-        android:id="@+id/campoNombre"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/regNom"
-        android:selectAllOnFocus="true" ></EditText>
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/campoApellido"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/regApe"
-        android:selectAllOnFocus="true" ></EditText>
-
-    <EditText
-        android:id="@+id/campoApellido2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/regApell"
-        android:selectAllOnFocus="true" ></EditText>
-
-    <EditText
-        android:id="@+id/campoCedula"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/regCed"
-        android:selectAllOnFocus="true" ></EditText>
-
-    <EditText
-        android:id="@+id/campoTelefono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/regTel"
-        android:selectAllOnFocus="true" ></EditText>
-
-    <EditText
-        android:id="@+id/campoArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/regArea"
-        android:selectAllOnFocus="true" ></EditText>
-
-    <EditText
-        android:id="@+id/campoMail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/prompt_email"
-        android:selectAllOnFocus="true" ></EditText>
-
-    <EditText
-        android:id="@+id/campoPass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/prompt_password"
-        android:selectAllOnFocus="true" ></EditText>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btRegistrar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:text="Registrar"
-            android:textColor="@android:color/white"></Button>
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/campoNombre"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:hint="@string/regNom"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoApellido"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/regApe"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoApellido2"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/regApell"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoCedula"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/regCed"
+                android:inputType="number"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoTelefono"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:hint="@string/regTel"
+                android:inputType="phone"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoArea"
+                android:layout_width="267dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/regArea"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoMail"
+                android:layout_width="267dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true"></EditText>
+
+            <EditText
+                android:id="@+id/campoPass"
+                android:layout_width="267dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true"></EditText>
+
+            <Spinner
+                android:id="@+id/tipo"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:id="@+id/btRegistrar"
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimaryDark"
+                android:hint="@string/navigation_drawer_open"
+                android:textColorHint="@android:color/white"></Button>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

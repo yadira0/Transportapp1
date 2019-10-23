@@ -2,9 +2,9 @@
 <resources>
     <string-array name="roles">
 
-        <item name="Admin"></item>
-        <item name="Conductor"></item>
-        <item name="Usuario"></item>
+        <item>Admin</item>
+        <item>Conductor</item>
+        <item>Usuario</item>
 
     </string-array>
 </resources>

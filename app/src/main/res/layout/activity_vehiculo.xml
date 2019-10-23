@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center_vertical"
+    android:padding="40dp"
     tools:context=".VehiculoActivity">
 
 
@@ -19,6 +21,9 @@
             android:id="@+id/campoMarca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
             android:hint="@string/regMar"
             android:selectAllOnFocus="true"></EditText>
 
@@ -26,6 +31,9 @@
             android:id="@+id/campoModelo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
             android:hint="@string/regModelo"
             android:selectAllOnFocus="true"></EditText>
 
@@ -33,6 +41,9 @@
             android:id="@+id/campoPlaca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
             android:hint="@string/regPlaca"
             android:selectAllOnFocus="true"></EditText>
 
@@ -40,6 +51,10 @@
             android:id="@+id/campoPasajeros"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:inputType="number"
             android:hint="@string/regPas"
             android:selectAllOnFocus="true"></EditText>
 
@@ -47,11 +62,11 @@
             android:id="@+id/btRegistro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="13dp"
             android:background="@color/colorPrimaryDark"
-            android:text="Registrar"
-            android:textColor="@android:color/white"></Button>
-
-
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="@string/navigation_drawer_open"
+            android:textColorHint="@android:color/white"></Button>
 
     </LinearLayout>
 

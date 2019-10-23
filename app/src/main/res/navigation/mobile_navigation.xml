@@ -40,4 +40,14 @@
         android:name="com.test.transportapp.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
+    <fragment
+        android:id="@+id/agendar"
+        android:name="com.test.transportapp.agendar"
+        android:label="fragment_agendar"
+        tools:layout="@layout/fragment_agendar" />
+    <fragment
+        android:id="@+id/cerrar_sesion"
+        android:name="com.test.transportapp.cerrar_sesion"
+        android:label="fragment_cerrar_sesion"
+        tools:layout="@layout/fragment_cerrar_sesion" />
 </navigation>

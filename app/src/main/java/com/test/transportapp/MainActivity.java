@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -28,6 +29,7 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private FirebaseAuth autenticacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        autenticacion=FirebaseAuth.getInstance();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id == R.id.nav_tools) {
             Intent intento = new Intent(MainActivity.this, AgendaActivity.class);
             startActivity(intento);
+        }
+        else if(id == R.id.cerrar_sesion) {
+            autenticacion.signOut();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

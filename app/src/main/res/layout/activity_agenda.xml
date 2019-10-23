@@ -37,9 +37,10 @@
         android:id="@+id/btnFinalizarSalida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Finalizar"
+        android:background="@drawable/atras"
         android:hint="Finalizar Salida"
-        android:selectAllOnFocus="true"></Button>
+        android:selectAllOnFocus="true"
+        android:text="Finalizar"></Button>
     <Button
         android:id="@+id/btnCancelar"
         android:layout_width="wrap_content"
@@ -47,5 +48,12 @@
         android:text="Cancelar"
         android:hint="Cancelar"
         android:selectAllOnFocus="true"></Button>
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
 
 </LinearLayout>
