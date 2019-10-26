@@ -10,7 +10,8 @@
     <string name="nav_header_title">BIENVENIDO !</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Ajustes</string>
+    <string name="action_settings">Atrás</string>
+    <string name="administracion">Administrar Usuario</string>
 
     <string name="menu_home">Inicio</string>
     <string name="menu_gallery">Registrar Usuario</string>

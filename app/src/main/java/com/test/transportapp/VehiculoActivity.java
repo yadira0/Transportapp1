@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +37,6 @@ public class VehiculoActivity extends AppCompatActivity {
     FirebaseAuth autenticacion;
     DatabaseReference bdApp;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +50,6 @@ public class VehiculoActivity extends AppCompatActivity {
         nPasajeros=(EditText)findViewById(R.id.campoPasajeros);
 
         registrar=(Button)findViewById(R.id.btRegistro);
-
-        /*ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.roles,android.R.layout.simple_spinner_item);
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rol.setAdapter(adaptador);*/
 
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,13 +88,30 @@ public class VehiculoActivity extends AppCompatActivity {
                                 Toast.makeText(VehiculoActivity.this,"SE HA REGISTRADO CORRECTAMENTE EL VEHICULO", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                Toast.makeText(VehiculoActivity.this, "No se pudo registrar el usuario en la BD", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VehiculoActivity.this, "No se pudo registrar el vehículo en la BD", Toast.LENGTH_SHORT).show();
 
                             }
                         }
                     });
 
-}
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.boton, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.atras:
+                Toast.makeText(this, "PRESIONO EL BOTON DE ATRAS", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     }
 

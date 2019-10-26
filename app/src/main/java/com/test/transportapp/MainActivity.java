@@ -90,7 +90,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intento);
         }
         else if(id == R.id.nav_tools) {
+            Intent intento = new Intent(MainActivity.this, ActualizarActivity.class);
+            startActivity(intento);
+        }
+        else if(id == R.id.nav_share) {
             Intent intento = new Intent(MainActivity.this, AgendaActivity.class);
+            startActivity(intento);
+        }
+        else if(id == R.id.nav_send) {
+            Intent intento = new Intent(MainActivity.this, AgendaActivity.class);
+            startActivity(intento);
+        }
+        else if(id == R.id.agendar) {
+            Intent intento = new Intent(MainActivity.this, SolicitudActivity.class);
             startActivity(intento);
         }
         else if(id == R.id.cerrar_sesion) {

@@ -19,10 +19,10 @@
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/actualizar"
-            android:title="@string/menu_tools" />
+            android:title="@string/administracion" />
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/eliminar"
+            android:icon="@drawable/administrar"
             android:title="@string/menu_share" />
         <item
             android:id="@+id/nav_send"
