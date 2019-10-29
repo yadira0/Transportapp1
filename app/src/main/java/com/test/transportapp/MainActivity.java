@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id == R.id.cerrar_sesion) {
             autenticacion.signOut();
         }
+        else if(id== R.id.nav_home){
+            Intent intento = new Intent(MainActivity.this, InicioActivity.class);
+            startActivity(intento);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

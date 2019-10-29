@@ -12,8 +12,16 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Atrás</string>
     <string name="administracion">Administrar Usuario</string>
-
+    <string name="calendario">Fecha</string>
+    <string name="navegar">Adelante</string>
     <string name="menu_home">Inicio</string>
+    <string name="dia1">Dom</string>
+    <string name="dia2">Lun</string>
+    <string name="dia3">Mar</string>
+    <string name="dia4">Mie</string>
+    <string name="dia5">Jue</string>
+    <string name="dia6">Vie</string>
+    <string name="dia7">Sab</string>
     <string name="menu_gallery">Registrar Usuario</string>
     <string name="agenda">Ver Agenda</string>
     <string name="menu_slideshow">Registrar Vehículo</string>

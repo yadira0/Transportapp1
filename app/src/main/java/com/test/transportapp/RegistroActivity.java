@@ -3,6 +3,7 @@ package com.test.transportapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,7 +58,43 @@ public class RegistroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
         autenticacion= FirebaseAuth.getInstance();
         bdApp= FirebaseDatabase.getInstance().getReference();
+        capturaDatos();
+        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.roles,android.R.layout.simple_spinner_item);
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        rol.setAdapter(adaptador);
 
+        registro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardaDatos();
+                if(!nom.isEmpty() && !ape.isEmpty() && !apell.isEmpty() && !ced.isEmpty() && !tel.isEmpty() && !are.isEmpty() && !mail.isEmpty() && !password.isEmpty()){
+                    if(password.length() > 5){
+                        registrarUsuario();
+                    }
+                    else{
+                        Toast.makeText(RegistroActivity.this, "La contraseña debe tener mínimo 6 de caracteres", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(RegistroActivity.this, "Los campos se deben llenar por completo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void guardaDatos() {
+        nom=nombre.getText().toString().trim();
+        ape=apellido.getText().toString().trim();
+        apell=apellido2.getText().toString().trim();
+        ced=cedula.getText().toString().trim();
+        tel=telefono.getText().toString().trim();
+        are=area.getText().toString().trim();
+        mail=correo.getText().toString().trim();
+        password=pass.getText().toString().trim();
+        tipoRol=rol.getSelectedItem().toString().trim();
+    }
+
+    private void capturaDatos() {
         nombre=(EditText)findViewById(R.id.campoNombre);
         apellido= (EditText)findViewById(R.id.campoApellido);
         apellido2=(EditText)findViewById(R.id.campoApellido2);
@@ -68,42 +105,6 @@ public class RegistroActivity extends AppCompatActivity {
         pass=(EditText)findViewById(R.id.campoPass);
         rol=(Spinner)findViewById(R.id.tipo);
         registro=(Button)findViewById(R.id.btRegistrar);
-
-        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.roles,android.R.layout.simple_spinner_item);
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rol.setAdapter(adaptador);
-
-        registro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nom=nombre.getText().toString().trim();
-                ape=apellido.getText().toString().trim();
-                apell=apellido2.getText().toString().trim();
-                ced=cedula.getText().toString().trim();
-                tel=telefono.getText().toString().trim();
-                are=area.getText().toString().trim();
-                mail=correo.getText().toString().trim();
-                password=pass.getText().toString().trim();
-                tipoRol=rol.getSelectedItem().toString().trim();
-
-                if(!nom.isEmpty() && !ape.isEmpty() && !apell.isEmpty() && !ced.isEmpty() && !tel.isEmpty() && !are.isEmpty() && !mail.isEmpty() && !password.isEmpty()){
-
-                    if(password.length() > 6){
-
-                        registrarUsuario();
-
-                    }
-                    else{
-                        Toast.makeText(RegistroActivity.this, "La contraseña debe tener más de 6 de caracteres", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    Toast.makeText(RegistroActivity.this, "Los campos se deben llenar por completo", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
     }
 
     public void registrarUsuario(){
@@ -128,7 +129,7 @@ public class RegistroActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task1) {
                             if(task1.isSuccessful()){
-                                Toast.makeText(RegistroActivity.this,"SE ENCUENTRA LOGUEADO CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistroActivity.this,"SE HA REGISTRADO CORRECTAMENTE", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 Toast.makeText(RegistroActivity.this, "No se pudo registrar el usuario en la BD", Toast.LENGTH_SHORT).show();
@@ -153,7 +154,8 @@ public class RegistroActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.atras:
-                Toast.makeText(this, "PRESIONO EL BOTON DE ATRAS", Toast.LENGTH_SHORT).show();
+                Intent lanzar = new Intent(RegistroActivity.this,MainActivity.class);
+                startActivity(lanzar);
                 break;
         }
         return super.onOptionsItemSelected(item);

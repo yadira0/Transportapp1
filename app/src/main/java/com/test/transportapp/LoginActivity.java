@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText email;
     private EditText password;
     private Button login;
+    private Integer flag=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +66,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        //    progreso.setMessage("Realizando verificación");
-        //  progreso.show();
-
         autenticacion.signInWithEmailAndPassword(user, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -94,19 +92,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot info : dataSnapshot.getChildren()) {
+
                     datosObtenidosLogin data = info.getValue(datosObtenidosLogin.class);
                     String correoMail = data.getCorreo();
                     String roles = data.getRol();
-
-                    if (data.getCorreo().equalsIgnoreCase(usuario) && data.getRol().equalsIgnoreCase("Admin")) {
-                        Intent next = new Intent(getApplication(), MainActivity.class);// DEBO BUSCAR PONER UNA BANDERA PARA ABRIR ACTIVIDAD
-                        startActivity(next);
+                    if (data.getCorreo().equalsIgnoreCase(usuario)) {
+                        if(roles.equalsIgnoreCase("Admin")){
+                            flag=1;
+                        }
+                        else if(roles.equalsIgnoreCase("Usuario")){
+                            flag=2;                        }
+                        else{
+                            flag=3;
+                        }
                     }
-
                 }
 
-                Intent next = new Intent(getApplication(), MainActivity.class);
-                startActivity(next);
+                if(flag==1){
+                    Intent next = new Intent(getApplication(), MainActivity.class);// DEBO BUSCAR PONER UNA BANDERA PARA ABRIR ACTIVIDAD
+                    startActivity(next);
+                }
+                else if(flag==2){
+
+                }
+                else if (flag==3){
+                    Intent next = new Intent(getApplication(), VehiculoActivity.class);
+                    startActivity(next);
+                }
+                else{
+                   Toast.makeText(LoginActivity.this,"No estás registrado comunicate con el administrador",Toast.LENGTH_SHORT).show();
+                    Intent next = new Intent(getApplication(), LoginActivity.class);
+                    startActivity(next);
+                   /* Intent next = new Intent(getApplication(), MainActivity.class);// DEBO BUSCAR PONER UNA BANDERA PARA ABRIR ACTIVIDAD
+                    startActivity(next);*/
+                }
 
             }
 
