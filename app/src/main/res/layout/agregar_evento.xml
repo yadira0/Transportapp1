@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/segundoFondo">
+
+    <EditText
+        android:id="@+id/origen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@color/colorLetra"
+        android:gravity="center"
+        android:hint="@string/agendaOrigen"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/destino"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorLetra"
+        android:gravity="center"
+        android:hint="@string/agendaDestino"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/numPasajero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorLetra"
+        android:gravity="center"
+        android:hint="@string/agendaPasajero"
+        android:inputType="number" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/reloj"
+                android:layout_margin="10dp"
+                android:id="@+id/reloj" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00 AM"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:textColor="@color/colorLetra"
+                    android:textStyle="bold"
+                    android:id="@+id/mostrarTiempo"
+                    android:layout_margin="10dp" />
+        </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/agendaBoton"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:background="@color/colorLetra"
+        android:id="@+id/botonsolicitud" />
+
+</LinearLayout>
