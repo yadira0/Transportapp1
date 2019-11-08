@@ -15,6 +15,10 @@
     <string name="calendario">Fecha</string>
     <string name="navegar">Adelante</string>
     <string name="menu_home">Inicio</string>
+    <string name="agendaDestino">Destino</string>
+    <string name="agendaPasajero">Número de pasajeros</string>
+    <string name="agendaOrigen">Origen</string>
+    <string name="agendaBoton">Agendar</string>
     <string name="dia1">Dom</string>
     <string name="dia2">Lun</string>
     <string name="dia3">Mar</string>

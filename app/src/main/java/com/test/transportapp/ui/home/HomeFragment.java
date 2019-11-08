@@ -13,10 +13,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.test.transportapp.R;
+import com.test.transportapp.manejoCalendario;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    manejoCalendario manejador;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
+
+                //manejador = (manejoCalendario) findViewById(R.id.manejoCalendario);
             }
         });
         return root;

@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         autenticacion=FirebaseAuth.getInstance();
+        Intent intento = new Intent(MainActivity.this, InicioActivity.class);
+        startActivity(intento);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
