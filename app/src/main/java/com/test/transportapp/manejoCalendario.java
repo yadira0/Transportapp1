@@ -19,14 +19,24 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 //import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class manejoCalendario extends LinearLayout {
@@ -34,16 +44,25 @@ public class manejoCalendario extends LinearLayout {
     ImageButton atras, adelante;
     TextView fecha;
     GridView vista_columna;
+    String origenStrin;
+    String destinoStrin;
+    String eventoTiempo;
+    String pasajeroBD;
+    String id;
     private static final int DIAS_MAXIMO_CALENDARIO = 42;
     Calendar calendario= Calendar.getInstance(Locale.ENGLISH);
     Context contexto;
     SimpleDateFormat formatoFecha = new SimpleDateFormat("MMMM yyyy",Locale.ENGLISH);
     SimpleDateFormat formatoMes = new SimpleDateFormat("MMMM",Locale.ENGLISH);
     SimpleDateFormat formatoYear = new SimpleDateFormat("yyyy",Locale.ENGLISH);
+    SimpleDateFormat formatodia = new SimpleDateFormat("dd", Locale.ENGLISH);
     AlertDialog alerta;
     List<Date> fechas=new ArrayList<>();
     List<Events> eventos = new ArrayList<>();
     adaptadorCeldas adaptadorCeldas;
+
+    DatabaseReference bdApp;
+    int conteo=0;
 
     public manejoCalendario(Context context) {
         super(context);
@@ -52,6 +71,8 @@ public class manejoCalendario extends LinearLayout {
     public manejoCalendario(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.contexto = context;
+
+        bdApp= FirebaseDatabase.getInstance().getReference();
         iniciarLayout();
         leerFecha();
         atras.setOnClickListener(new OnClickListener() {
@@ -85,6 +106,9 @@ public class manejoCalendario extends LinearLayout {
                 clock.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        origenStrin=orig.getText().toString().trim();
+                        destinoStrin=dest.getText().toString().trim();
+                        pasajeroBD= pasajeros.getText().toString().trim();
                         Calendar calendar = Calendar.getInstance();
                         int horas = calendar.get(Calendar.HOUR_OF_DAY);
                         int minutos = calendar.get(Calendar.MINUTE);
@@ -96,7 +120,7 @@ public class manejoCalendario extends LinearLayout {
                                 ca.set(Calendar.MINUTE,minute);
                                 ca.setTimeZone(TimeZone.getDefault());
                                 SimpleDateFormat horaFormato = new SimpleDateFormat("K:mm a", Locale.ENGLISH);
-                                String eventoTiempo = horaFormato.format(ca.getTime());
+                                eventoTiempo = horaFormato.format(ca.getTime());
                                 muestraTiempo.setText(eventoTiempo);
 
                             }
@@ -107,21 +131,20 @@ public class manejoCalendario extends LinearLayout {
                 final String fechaStrin = formatoFecha.format(fechas.get(position));
                 final String mesStrin = formatoMes.format(fechas.get(position));
                 final String yearStrin = formatoYear.format(fechas.get(position));
+                final String diaStrin= formatodia.format(fechas.get(position));
 
                 agregar.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        guardarSolicitud();
+                        guardarSolicitud(diaStrin,mesStrin,yearStrin,origenStrin,destinoStrin,pasajeroBD,eventoTiempo);
                         leerFecha();
                         alerta.dismiss();
+
                     }
                 });
                 builder.setView(agregarVista);
                 alerta = builder.create();
                 alerta.show();
-
-
-
             }
         });
 
@@ -171,9 +194,31 @@ public class manejoCalendario extends LinearLayout {
         //Events evento = new Events(origenCalendario);
     }
 
-    private void guardarSolicitud(){
+    private void guardarSolicitud(String dia,String mes,String year,String origin,String destination,String pasajeroBD, String hora){
 
+        conteo++;
 
+        Map<String, Object> infoSolicitud = new HashMap<>();
+        infoSolicitud.put("origen",origin);
+        infoSolicitud.put("destino",destination);
+        infoSolicitud.put("hora",hora);
+        infoSolicitud.put("dia",dia);
+        infoSolicitud.put("mes",mes);
+        infoSolicitud.put("año",year);
+        infoSolicitud.put("num_pasajeros", pasajeroBD);
 
+        id =bdApp.push().getKey();
+        bdApp.child("Recorridos").child(id).setValue(infoSolicitud).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task1) {
+                if(task1.isSuccessful()){
+                    Toast.makeText(contexto,"Recorrido asignado", Toast.LENGTH_LONG).show();
+
+                }
+                else{
+                    Toast.makeText(contexto,"Hubo un error, intente nuevamente", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

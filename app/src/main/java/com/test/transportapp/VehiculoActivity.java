@@ -80,7 +80,7 @@ public class VehiculoActivity extends AppCompatActivity {
                     datos.put("placa", plac);
                     datos.put("no Pasajeros",pasajeros);
 
-                    String id = autenticacion.getCurrentUser().getUid();
+                    String  id =bdApp.push().getKey();
                     bdApp.child("Vehiculos").child(id).setValue(datos).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task1) {
