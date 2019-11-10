@@ -27,6 +27,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+/*
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
@@ -43,3 +44,4 @@ gradle.taskGraph.whenReady {
             test.enabled = false
         }
 }
+*/
