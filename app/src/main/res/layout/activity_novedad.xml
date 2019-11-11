@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center_vertical"
+    android:padding="30dp"
+    tools:context=".NovedadActivity">
+
+    <EditText
+        android:id="@+id/carro_novedad"
+        android:layout_width="267dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:hint="@string/regPlaca"
+        android:selectAllOnFocus="true"></EditText>
+
+    <EditText
+        android:id="@+id/carro_reemplazo"
+        android:layout_width="267dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:hint="@string/reemplazo"
+        android:selectAllOnFocus="true"></EditText>
+
+    <EditText
+        android:id="@+id/motivo"
+        android:layout_width="267dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:hint="@string/motivo"
+        android:selectAllOnFocus="true"></EditText>
+
+
+    <Button
+        android:id="@+id/btRegistro"
+        android:layout_width="194dp"
+        android:layout_height="74dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimaryDark"
+        android:hint="@string/navigation_drawer_open"
+        android:textColorHint="@android:color/white"></Button>
+
+</LinearLayout>
