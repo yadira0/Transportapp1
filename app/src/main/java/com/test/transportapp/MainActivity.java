@@ -18,6 +18,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.test.transportapp.ServicioMensajeria.APIService;
+import com.test.transportapp.ServicioMensajeria.token;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth autenticacion;
     private int conteo;
+    String mUID;
+    APIService apiService;
+    boolean notify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //NavigationView navigationView =findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mUID=autenticacion.getCurrentUser().getUid();
+    }
+
+    public void updateToken (String tken){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
+        token mtoken = new token(tken);
+        ref.child(mUID).setValue(mtoken);
     }
 
     @Override
@@ -92,23 +106,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intento = new Intent(MainActivity.this, ActualizarActivity.class);
             startActivity(intento);
         }
-        else if(id == R.id.nav_share) {
-            Intent intento = new Intent(MainActivity.this, AgendaActivity.class);
-            startActivity(intento);
-        }
         else if(id == R.id.nav_send) {
-            Intent intento = new Intent(MainActivity.this, AgendaActivity.class);
+            Intent intento = new Intent(MainActivity.this, SolicitudActivity.class);
             startActivity(intento);
         }
         else if(id == R.id.agendar) {
             Intent intento = new Intent(MainActivity.this, InicioActivity.class);
             startActivity(intento);
         }
-        else if(id == R.id.cerrar_sesion) {
-            autenticacion.signOut();
-        }
         else if(id== R.id.nav_home){
-            Intent intento = new Intent(MainActivity.this, InicioActivity.class);
+            Intent intento = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intento);
         }
 

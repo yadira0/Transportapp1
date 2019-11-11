@@ -8,7 +8,7 @@
     <string name="navigation_drawer_open">Registrar</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">BIENVENIDO !</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_subtitle">Gestión de Transporte ICBF</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Atrás</string>
     <string name="administracion">Administrar Usuario</string>
@@ -50,6 +50,13 @@
     <string name="regPlaca">Ingrese la placa del vehiculo</string>
     <string name="regEstado">Ingrese Estado</string>
     <string name="etiqueta">Lista de Usuarios</string>
+    <string name="etiqueta1">Lista de Recorrido</string>
+    <string name="destinoListado">Destino</string>
+    <string name="horaListado">Hora Salida</string>
+    <string name="fechaListado">Fecha Salida</string>
+    <string name="reemplazo">Placa vehículo que reemplaza</string>
+    <string name="motivo">Indique el motivo de novedad</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

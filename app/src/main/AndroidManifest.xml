@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InicioActivity"></activity>
+        <activity android:name=".AgendaConductor"></activity>
+        <activity android:name=".NovedadActivity" />
+        <activity android:name=".InicioActivity" />
         <activity android:name=".ActualizarActivity" />
         <activity android:name=".VehiculoActivity" />
         <activity android:name=".AgendaActivity" />

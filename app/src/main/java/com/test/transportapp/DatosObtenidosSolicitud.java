@@ -1,12 +1,22 @@
 package com.test.transportapp;
 
+import androidx.annotation.NonNull;
+
 public class DatosObtenidosSolicitud {
-    String destino;
-    String estado;
-    String horaLlegada;
+
+    String origen, destino, hora, fechaComplete;
+
 
     public DatosObtenidosSolicitud() {
 
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
     }
 
     public String getDestino() {
@@ -17,19 +27,26 @@ public class DatosObtenidosSolicitud {
         this.destino = destino;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getHora() {
+        return hora;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
-    public String getHoraLlegada() {
-        return horaLlegada;
+    public String getFechaComplete() {
+        return fechaComplete;
     }
 
-    public void setHoraLlegada(String horaLlegada) {
-        this.horaLlegada = horaLlegada;
+    public void setFechaComplete(String fechaComplete) {
+        this.fechaComplete = fechaComplete;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+
+        return origen;
     }
 }

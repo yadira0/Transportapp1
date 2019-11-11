@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 //import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.gms.common.api.Api;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +35,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.test.transportapp.ServicioMensajeria.APIService;
+import com.test.transportapp.ServicioMensajeria.client;
+import com.test.transportapp.ServicioMensajeria.data;
+import com.test.transportapp.ServicioMensajeria.token;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +51,9 @@ import java.util.TimeZone;
 
 public class manejoCalendario extends LinearLayout {
 
+    String mUID;
+    APIService apiService;
+    boolean notify = false;
     ImageButton atras, adelante;
     TextView fecha;
     GridView vista_columna;
@@ -117,9 +126,12 @@ public class manejoCalendario extends LinearLayout {
                 clock.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        notify=true;
                         origenStrin=orig.getText().toString().trim();
                         destinoStrin=dest.getText().toString().trim();
                         pasajeroBD= pasajeros.getText().toString().trim();
+
+                        apiService= client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
                         Calendar calendar = Calendar.getInstance();
                         int horas = calendar.get(Calendar.HOUR_OF_DAY);
                         int minutos = calendar.get(Calendar.MINUTE);
@@ -218,7 +230,7 @@ public class manejoCalendario extends LinearLayout {
         });
     }
 
-    private void guardarSolicitud(String dia,String mes,String year,String origin,String destination,String pasajeroBD,String hora,String fecha ){
+    private void guardarSolicitud(String dia, String mes, String year, String origin, final String destination, String pasajeroBD, String hora, String fecha ){
 
         String estado = "disponible";
 
@@ -263,11 +275,47 @@ public class manejoCalendario extends LinearLayout {
 
                 if(task1.isSuccessful()){
                     Toast.makeText(contexto,"Recorrido asignado", Toast.LENGTH_LONG).show();
+                    String msg =destination;
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(id);
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
                 else{
                     Toast.makeText(contexto,"Hubo un error, intente nuevamente", Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    public void sendNotification(final String mUID, final String destina, final String fecha){
+
+        DatabaseReference allToken= FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = allToken.orderByKey().equalTo(mUID);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    token token = ds.getValue(token.class);
+                    //data data= new data(mUID,);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

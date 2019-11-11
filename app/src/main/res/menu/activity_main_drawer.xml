@@ -18,12 +18,8 @@
             android:title="@string/menu_slideshow" />
         <item
             android:id="@+id/nav_tools"
-            android:icon="@drawable/actualizar"
-            android:title="@string/administracion" />
-        <item
-            android:id="@+id/nav_share"
             android:icon="@drawable/administrar"
-            android:title="@string/menu_share" />
+            android:title="@string/administracion" />
         <item
             android:id="@+id/nav_send"
             android:icon="@drawable/agenda"
@@ -32,10 +28,6 @@
             android:id="@+id/agendar"
             android:icon="@drawable/agendar"
             android:title="@string/menu_ver" />
-        <item
-            android:id="@+id/cerrar_sesion"
-            android:icon="@drawable/cerrar"
-            android:title="@string/menu_send" />
 
     </group>
 
