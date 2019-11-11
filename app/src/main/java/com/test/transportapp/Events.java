@@ -1,9 +1,9 @@
 package com.test.transportapp;
 
 public class Events {
-    String destino, dia, hora, mes, year, fecha, origen;
+    String destino, dia, hora, mes, year, fecha, origen, estado;
 
-    public Events(String destino, String dia, String hora, String mes, String year, String fecha, String origen) {
+    public Events() {
         this.destino = destino;
         this.dia = dia;
         this.hora = hora;
@@ -11,6 +11,7 @@ public class Events {
         this.year = year;
         this.fecha=fecha;
         this.origen=origen;
+        this.estado=estado;
     }
 
     public String getDestino() {
@@ -77,5 +78,13 @@ public class Events {
 
     public void setOrigen(String origen) {
         this.origen = origen;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

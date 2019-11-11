@@ -78,6 +78,7 @@ public class RegistroActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(RegistroActivity.this, "Los campos se deben llenar por completo", Toast.LENGTH_SHORT).show();
                 }
+                limpiarCajas();
             }
         });
     }
@@ -104,6 +105,7 @@ public class RegistroActivity extends AppCompatActivity {
         correo=(EditText)findViewById(R.id.campoMail);
         pass=(EditText)findViewById(R.id.campoPass);
         rol=(Spinner)findViewById(R.id.tipo);
+
         registro=(Button)findViewById(R.id.btRegistrar);
     }
 
@@ -159,5 +161,16 @@ public class RegistroActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void limpiarCajas(){
+        nombre.setText("");
+        apellido.setText("");
+        apellido2.setText("");
+        cedula.setText("");
+        telefono.setText("");
+        area.setText("");
+        correo.setText("");
+        pass.setText("");
     }
 }

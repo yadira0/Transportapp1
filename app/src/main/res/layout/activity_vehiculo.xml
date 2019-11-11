@@ -10,6 +10,9 @@
     android:padding="40dp"
     tools:context=".VehiculoActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,6 +61,16 @@
             android:hint="@string/regPas"
             android:selectAllOnFocus="true"></EditText>
 
+        <EditText
+            android:id="@+id/areaCarro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:hint="@string/areaCarro"
+            android:selectAllOnFocus="true"></EditText>
+
         <Button
             android:id="@+id/btRegistro"
             android:layout_width="match_parent"
@@ -69,5 +82,7 @@
             android:textColorHint="@android:color/white"></Button>
 
     </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>

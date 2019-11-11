@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth autenticacion;
+    private int conteo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         autenticacion=FirebaseAuth.getInstance();
-        Intent intento = new Intent(MainActivity.this, InicioActivity.class);
-        startActivity(intento);
+        /*if(conteo!=1) {
+            conteo=1;
+            Intent intento = new Intent(MainActivity.this, InicioActivity.class);
+            startActivity(intento);
+        }*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intento);
         }
         else if(id == R.id.agendar) {
-            Intent intento = new Intent(MainActivity.this, SolicitudActivity.class);
+            Intent intento = new Intent(MainActivity.this, InicioActivity.class);
             startActivity(intento);
         }
         else if(id == R.id.cerrar_sesion) {

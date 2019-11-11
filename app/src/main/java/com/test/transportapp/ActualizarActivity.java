@@ -109,7 +109,6 @@ public class ActualizarActivity extends AppCompatActivity {
             case R.id.atras:
                 Intent lanzar = new Intent(ActualizarActivity.this,MainActivity.class);
                 startActivity(lanzar);
-                Toast.makeText(this, "PRESIONO EL BOTON DE ATRAS", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.actualzar:

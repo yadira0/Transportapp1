@@ -27,10 +27,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String user, pass;
     private DatabaseReference bdApp;
     private String rol;
+    String informa;
     private EditText email;
     private EditText password;
     private Button login;
     private Integer flag=0;
+    datosObtenidosLogin data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +80,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this, "no se pudo loguear usuario y/o contraseña erróneas", Toast.LENGTH_LONG).show();
 
                 }
-
-
             }
         });
 
@@ -93,30 +93,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 for(DataSnapshot info : dataSnapshot.getChildren()) {
 
-                    datosObtenidosLogin data = info.getValue(datosObtenidosLogin.class);
+                    data = info.getValue(datosObtenidosLogin.class);
                     String correoMail = data.getCorreo();
                     String roles = data.getRol();
                     if (data.getCorreo().equalsIgnoreCase(usuario)) {
                         if(roles.equalsIgnoreCase("Admin")){
                             flag=1;
+                            informa = data.getNombre();
                         }
                         else if(roles.equalsIgnoreCase("Usuario")){
-                            flag=2;                        }
+                            flag=2;
+                            informa = data.getNombre();
+                        }
                         else{
                             flag=3;
+                            informa = data.getNombre();
                         }
                     }
                 }
 
                 if(flag==1){
+                   // data.setNombre(informa);
+
                     Intent next = new Intent(getApplication(), MainActivity.class);// DEBO BUSCAR PONER UNA BANDERA PARA ABRIR ACTIVIDAD
                     startActivity(next);
                 }
                 else if(flag==2){
+                    //data.setNombre(informa);
 
                 }
                 else if (flag==3){
-                    Intent next = new Intent(getApplication(), VehiculoActivity.class);
+                    //data.setNombre(informa);
+                    Intent next = new Intent(getApplication(), AgendaActivity.class);
                     startActivity(next);
                 }
                 else{

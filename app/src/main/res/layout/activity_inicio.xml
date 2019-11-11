@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:id="@+id/manejoCalendario">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="300dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_delete" />
     </com.test.transportapp.manejoCalendario>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,10 +51,10 @@ public class adaptadorCeldas extends ArrayAdapter {
         }
 
         if(muestraMes== manejadorMes && muestaYear == manejadorYear){
-            vista1.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+            vista1.setBackgroundColor(getContext().getResources().getColor(R.color.dia2));
         }
         else{
-            vista1.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
+            vista1.setBackgroundColor(getContext().getResources().getColor(R.color.segundoFondo));
         }
 
         TextView numeroDia = vista1.findViewById(R.id.celda_columna);
@@ -63,12 +63,12 @@ public class adaptadorCeldas extends ArrayAdapter {
         Calendar eventosCalendario = Calendar.getInstance();
         ArrayList <String> array =new ArrayList<>();
         for(int cont=0; cont< eventos.size(); cont ++){
-            eventosCalendario.setTime(convertirStringaFecha(eventos.get(cont).getFecha()));
+            //eventosCalendario.setTime(convertirStringaFecha(eventos.get(cont).getFecha()));
             if(diaNum == eventosCalendario.get(Calendar.DAY_OF_MONTH) && muestraMes == eventosCalendario.get(Calendar.MONTH)
                     && muestaYear == eventosCalendario.get(Calendar.YEAR)){
 
                 array.add(eventos.get(cont).getDestino());
-                array.add(eventos.get(cont).getHora());
+                //array.add(eventos.get(cont).getHora());
                 numEvento.setText(array.size()+ "Viajes");
             }
         }
@@ -76,16 +76,17 @@ public class adaptadorCeldas extends ArrayAdapter {
         return vista1;
     }
 
-    private Date convertirStringaFecha(String eventoFecha){
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-ddd", Locale.ENGLISH);
+    /*private Date convertirStringaFecha(String eventoFecha){
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date fechaMe = null;
         try{
             fechaMe = formato.parse(eventoFecha);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return fechaMe;
-    }
+    }*/
 
     @Override
     public int getCount() {

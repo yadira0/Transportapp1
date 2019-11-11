@@ -26,6 +26,8 @@
     <string name="dia5">Jue</string>
     <string name="dia6">Vie</string>
     <string name="dia7">Sab</string>
+    <string name="menu">Menú</string>
+    <string name="menuNove">Novedad</string>
     <string name="menu_gallery">Registrar Usuario</string>
     <string name="agenda">Ver Agenda</string>
     <string name="menu_slideshow">Registrar Vehículo</string>
@@ -43,6 +45,7 @@
     <string name="regCed">Ingrese Número Cedula</string>
     <string name="regMar">Ingrese la marca del vehiculo</string>
     <string name="regPas">Ingrese Número Pasajeros</string>
+    <string name="areaCarro">Ingrese Área del Carro</string>
     <string name="regModelo">Ingrese Modelo</string>
     <string name="regPlaca">Ingrese la placa del vehiculo</string>
     <string name="regEstado">Ingrese Estado</string>
