@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,6 +140,7 @@ public class RegistroActivity extends AppCompatActivity {
                             }
                         }
                     });
+
                 }
                 else{
                     Toast.makeText(RegistroActivity.this, "No se pudo registrar el usuario verifique que el correo este bien escrito", Toast.LENGTH_SHORT).show();

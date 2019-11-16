@@ -9,6 +9,7 @@ import java.util.Calendar;
 //import android.icu.util.Calendar;
 import android.provider.CalendarContract;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,10 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.test.transportapp.ServicioMensajeria.APIService;
-import com.test.transportapp.ServicioMensajeria.client;
-import com.test.transportapp.ServicioMensajeria.data;
-import com.test.transportapp.ServicioMensajeria.token;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 
 import java.util.Date;
 import java.util.HashMap;
@@ -49,10 +48,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class manejoCalendario extends LinearLayout {
 
     String mUID;
-    APIService apiService;
+
     boolean notify = false;
     ImageButton atras, adelante;
     TextView fecha;
@@ -62,6 +67,7 @@ public class manejoCalendario extends LinearLayout {
     String eventoTiempo;
     String pasajeroBD;
     String id;
+    String token1;
     final String[] prueba = new String[1];
     private static final int DIAS_MAXIMO_CALENDARIO = 42;
     Calendar calendario= Calendar.getInstance(Locale.ENGLISH);
@@ -131,7 +137,7 @@ public class manejoCalendario extends LinearLayout {
                         destinoStrin=dest.getText().toString().trim();
                         pasajeroBD= pasajeros.getText().toString().trim();
 
-                        apiService= client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
+//                        apiService= client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
                         Calendar calendar = Calendar.getInstance();
                         int horas = calendar.get(Calendar.HOUR_OF_DAY);
                         int minutos = calendar.get(Calendar.MINUTE);
@@ -242,9 +248,12 @@ public class manejoCalendario extends LinearLayout {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot datos : dataSnapshot.getChildren()) {
-                    actualizarDatos info = datos.getValue(actualizarDatos.class);
+                    datosObtenidosLogin info = datos.getValue(datosObtenidosLogin.class);
                     if (datos.getKey().equalsIgnoreCase(idKey)) {
                         prueba[0] = info.getNombre();
+                    }
+                    if(info.rol.equalsIgnoreCase("conductor")){
+                        token1= FirebaseInstanceId.getInstance().getToken();
                     }
                 }
             }
@@ -256,8 +265,7 @@ public class manejoCalendario extends LinearLayout {
         });
 
         String d= prueba[0];
-
-        Map<String, Object> infoSolicitud = new HashMap<>();
+        final Map<String, Object> infoSolicitud = new HashMap<>();
         infoSolicitud.put("origen",origin);
         infoSolicitud.put("destino",destination);
         infoSolicitud.put("num_pasajeros", pasajeroBD);
@@ -266,7 +274,6 @@ public class manejoCalendario extends LinearLayout {
         infoSolicitud.put("mes",mes);
         infoSolicitud.put("año",year);
         infoSolicitud.put("estado",estado);
-        infoSolicitud.put("fechaComplete",fecha);
         infoSolicitud.put("agendado",d);
 
         bdApp.child("Recorridos").child(id).setValue(infoSolicitud).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -275,19 +282,10 @@ public class manejoCalendario extends LinearLayout {
 
                 if(task1.isSuccessful()){
                     Toast.makeText(contexto,"Recorrido asignado", Toast.LENGTH_LONG).show();
-                    String msg =destination;
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(id);
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.e("Token", String.valueOf(infoSolicitud));
+                    Log.e("Token", token1); // crear un list para despues acceder a los datos
 
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+//                    sendNotification(token1);// debo enviar un token mirar como lo hago
 
                 }
                 else{
@@ -297,25 +295,25 @@ public class manejoCalendario extends LinearLayout {
         });
     }
 
-    public void sendNotification(final String mUID, final String destina, final String fecha){
+  /*  public void sendNotification(String token) {
 
-        DatabaseReference allToken= FirebaseDatabase.getInstance().getReference("Tokens");
-        Query query = allToken.orderByKey().equalTo(mUID);
-        query.addValueEventListener(new ValueEventListener() {
+        Notificacion notificacion = new Notificacion("prueba", "mensaje");
+        sender sender = new sender(notificacion, token);
+        APIService enviarPush = new Retrofit.Builder().baseUrl("https://fcm.googleapis.com/").addConverterFactory(GsonConverterFactory.create()).build().create(APIService.class);
+        enviarPush.sendNotification(sender).enqueue(new Callback<response>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    token token = ds.getValue(token.class);
-                    //data data= new data(mUID,);
+            public void onResponse(Call<response> call, Response<response> response) {
+                if(response.body().getSuccess()==1){
+                    Toast.makeText(getContext(),"Mensaje enviado", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onFailure(Call<response> call, Throwable t) {
 
             }
         });
+    }*/
 
-    }
+
 }

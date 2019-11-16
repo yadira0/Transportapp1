@@ -7,13 +7,13 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.test.transportapp.ServicioMensajeria.APIService;
+
 
 public class InicioActivity extends AppCompatActivity {
 
     manejoCalendario manejador;
     String mUID;
-    APIService apiService;
+//    APIService apiService;
     boolean notify = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

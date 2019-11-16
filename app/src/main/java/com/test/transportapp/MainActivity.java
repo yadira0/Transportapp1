@@ -20,8 +20,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.test.transportapp.ServicioMensajeria.APIService;
-import com.test.transportapp.ServicioMensajeria.token;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth autenticacion;
     private int conteo;
     String mUID;
-    APIService apiService;
+
     boolean notify = false;
 
     @Override
@@ -72,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void updateToken (String tken){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
-        token mtoken = new token(tken);
-        ref.child(mUID).setValue(mtoken);
+       // token mtoken = new token(tken);
+       // ref.child(mUID).setValue(mtoken);
     }
 
     @Override

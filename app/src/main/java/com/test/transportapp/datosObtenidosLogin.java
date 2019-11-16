@@ -3,7 +3,7 @@ package com.test.transportapp;
 public class datosObtenidosLogin {
     String correo;
     String rol;
-    String nombre;
+    String nombre,area;
 
     public datosObtenidosLogin() {
 
@@ -31,5 +31,13 @@ public class datosObtenidosLogin {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }
