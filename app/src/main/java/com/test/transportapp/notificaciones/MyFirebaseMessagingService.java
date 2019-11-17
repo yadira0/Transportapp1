@@ -18,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.test.transportapp.MainActivity;
 import com.test.transportapp.R;
+import com.test.transportapp.SolicitudActivity;
 
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
+
 
         if(remoteMessage.getData().isEmpty())
             showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
@@ -67,7 +68,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String body = data.get("body").toString();
         String NOTIFICATION_CHANNEL_ID = getString(R.string.default_notification_channel_id);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SolicitudActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -98,7 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void showNotification(String title, String body) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SolicitudActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,
                 PendingIntent.FLAG_ONE_SHOT);

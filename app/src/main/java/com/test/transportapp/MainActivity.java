@@ -20,6 +20,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.test.transportapp.notificaciones.APIService;
+import com.test.transportapp.notificaciones.Client;
+import com.test.transportapp.notificaciones.Token;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -32,9 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth autenticacion;
-    private int conteo;
+    APIService apiService;
     String mUID;
-
     boolean notify = false;
 
     @Override
@@ -43,12 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        apiService = Client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
         autenticacion=FirebaseAuth.getInstance();
-        /*if(conteo!=1) {
-            conteo=1;
-            Intent intento = new Intent(MainActivity.this, InicioActivity.class);
-            startActivity(intento);
-        }*/
+        mUID=autenticacion.getCurrentUser().getUid();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -65,13 +65,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //NavigationView navigationView =findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mUID=autenticacion.getCurrentUser().getUid();
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
     }
 
     public void updateToken (String tken){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
-       // token mtoken = new token(tken);
-       // ref.child(mUID).setValue(mtoken);
+        Token mtoken = new Token(tken);
+        ref.child(mUID).setValue(mtoken);
     }
 
     @Override
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intento);
         }
         else if(id == R.id.agendar) {
+            notify=true;
             Intent intento = new Intent(MainActivity.this, InicioActivity.class);
             startActivity(intento);
         }

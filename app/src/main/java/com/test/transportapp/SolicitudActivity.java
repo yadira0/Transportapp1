@@ -30,7 +30,7 @@ public class SolicitudActivity extends AppCompatActivity {
     ArrayAdapter<DatosObtenidosSolicitud> adaptador;
     private List<String> llaves = new ArrayList<>();
     private DatabaseReference bdApp;
-    private String key;
+    //private String key;
     private TextView origen, destino;
     private TextView hora, fecha;
 
@@ -58,7 +58,7 @@ public class SolicitudActivity extends AppCompatActivity {
         destino.setText(viajeSeleccionado.getDestino());
         hora.setText(viajeSeleccionado.getHora());
         fecha.setText(viajeSeleccionado.getFechaComplete());
-        key = llaves.get(position);
+      //  key = llaves.get(position);
     }
 
     private void capturaDatos() {

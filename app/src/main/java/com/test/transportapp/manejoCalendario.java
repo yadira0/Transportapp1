@@ -39,6 +39,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.test.transportapp.notificaciones.APIService;
+import com.test.transportapp.notificaciones.Client;
+import com.test.transportapp.notificaciones.Data;
+import com.test.transportapp.notificaciones.Response;
+import com.test.transportapp.notificaciones.Sender;
+import com.test.transportapp.notificaciones.Token;
 
 
 import java.util.Date;
@@ -50,14 +56,12 @@ import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class manejoCalendario extends LinearLayout {
 
+    APIService apiService;
     String mUID;
-
     boolean notify = false;
     ImageButton atras, adelante;
     TextView fecha;
@@ -88,17 +92,22 @@ public class manejoCalendario extends LinearLayout {
     ArrayAdapter<Events> adaptadorEvento;
     private List<String> llave= new ArrayList<>();
     Events info;
+    String idKey = null;
 
     public manejoCalendario(Context context) {
         super(context);
+
     }
 
     public manejoCalendario(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.contexto = context;
+
         info= new Events();
         autenticacion= FirebaseAuth.getInstance();
         bdApp= FirebaseDatabase.getInstance().getReference();
+        apiService = Client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
+        mUID= autenticacion.getCurrentUser().getUid();
         iniciarLayout();
         leerFecha();
         atras.setOnClickListener(new OnClickListener() {
@@ -132,7 +141,7 @@ public class manejoCalendario extends LinearLayout {
                 clock.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        notify=true;
+
                         origenStrin=orig.getText().toString().trim();
                         destinoStrin=dest.getText().toString().trim();
                         pasajeroBD= pasajeros.getText().toString().trim();
@@ -165,7 +174,7 @@ public class manejoCalendario extends LinearLayout {
                 agregar.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        notify=true;
                         guardarSolicitud(diaStrin,mesStrin,yearStrin,origenStrin,destinoStrin,pasajeroBD,eventoTiempo, fechaStrin);
                         leerFecha();
                         alerta.dismiss();
@@ -240,8 +249,8 @@ public class manejoCalendario extends LinearLayout {
 
         String estado = "disponible";
 
-        final String idKey= autenticacion.getCurrentUser().getUid();
-        id =bdApp.push().getKey();
+        idKey= autenticacion.getCurrentUser().getUid();
+
         bdApp.child("Usuarios").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -275,6 +284,8 @@ public class manejoCalendario extends LinearLayout {
         infoSolicitud.put("año",year);
         infoSolicitud.put("estado",estado);
         infoSolicitud.put("agendado",d);
+        final String mensaje="prueba desde app";
+        String  id =bdApp.push().getKey();
 
         bdApp.child("Recorridos").child(id).setValue(infoSolicitud).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -282,10 +293,28 @@ public class manejoCalendario extends LinearLayout {
 
                 if(task1.isSuccessful()){
                     Toast.makeText(contexto,"Recorrido asignado", Toast.LENGTH_LONG).show();
-                    Log.e("Token", String.valueOf(infoSolicitud));
-                    Log.e("Token", token1); // crear un list para despues acceder a los datos
 
-//                    sendNotification(token1);// debo enviar un token mirar como lo hago
+                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Usuarios").child(idKey);
+                    database.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            infoMensaje user = dataSnapshot.getValue(infoMensaje.class);
+                            if(notify){
+                                sendNotification(mUID,user.getNombre(),mensaje);
+                            }
+                            notify=false;
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    //Log.e("Token", String.valueOf(infoSolicitud));
+                    //Log.e("Token", token1); // crear un list para despues acceder a los datos
+
+//
 
                 }
                 else{
@@ -295,25 +324,38 @@ public class manejoCalendario extends LinearLayout {
         });
     }
 
-  /*  public void sendNotification(String token) {
-
-        Notificacion notificacion = new Notificacion("prueba", "mensaje");
-        sender sender = new sender(notificacion, token);
-        APIService enviarPush = new Retrofit.Builder().baseUrl("https://fcm.googleapis.com/").addConverterFactory(GsonConverterFactory.create()).build().create(APIService.class);
-        enviarPush.sendNotification(sender).enqueue(new Callback<response>() {
+    private void sendNotification(final String mUID, final String nombre, final String mensaje) {
+        DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = allTokens.orderByKey().equalTo(autenticacion.getUid());//VA EL ID DEL DESTINATARIO
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(Call<response> call, Response<response> response) {
-                if(response.body().getSuccess()==1){
-                    Toast.makeText(getContext(),"Mensaje enviado", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    Token token = ds.getValue(Token.class);
+                    Data data = new Data(mUID, nombre+":"+mensaje, "Nuevo Mensaje", mUID,R.drawable.ic_sms_black_24dp);
+
+                    Sender sender = new Sender(data,token.getToken());
+                    apiService.sendNotification(sender).enqueue(new Callback<Response>() {
+                        @Override
+                        public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Response> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onFailure(Call<response> call, Throwable t) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-    }*/
+    }
 
 
 }

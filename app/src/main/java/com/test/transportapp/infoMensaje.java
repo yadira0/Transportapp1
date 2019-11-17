@@ -1,21 +1,18 @@
 package com.test.transportapp;
 
-public class datosObtenidosLogin {
-    String correo;
-    String rol;
+public class infoMensaje {
+
+    String rol,uid;
     String nombre,area;
 
-    public datosObtenidosLogin() {
-
+    public infoMensaje(String rol, String uid, String nombre, String area) {
+        this.rol = rol;
+        this.uid = uid;
+        this.nombre = nombre;
+        this.area = area;
     }
 
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public infoMensaje() {
     }
 
     public String getRol() {
@@ -24,6 +21,14 @@ public class datosObtenidosLogin {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getNombre() {

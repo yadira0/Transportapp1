@@ -47,6 +47,7 @@ public class RegistroActivity extends AppCompatActivity {
     private String mail;
     private String password;
     private String tipoRol;
+    private  String token1;
 
     FirebaseAuth autenticacion;
     DatabaseReference bdApp;
@@ -133,6 +134,16 @@ public class RegistroActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task1) {
                             if(task1.isSuccessful()){
                                 Toast.makeText(RegistroActivity.this,"SE HA REGISTRADO CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+                                token1= FirebaseInstanceId.getInstance().getToken();
+                                String  id =bdApp.push().getKey();
+
+                                bdApp.child("Tokens").child(id).setValue(token1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
+
                             }
                             else{
                                 Toast.makeText(RegistroActivity.this, "No se pudo registrar el usuario en la BD", Toast.LENGTH_SHORT).show();
