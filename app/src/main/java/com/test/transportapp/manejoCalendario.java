@@ -88,7 +88,6 @@ public class manejoCalendario extends LinearLayout {
     datosObtenidosLogin informacion;
     FirebaseAuth autenticacion;
     DatabaseReference bdApp;
-    //private List<Events> eventosLista = new ArrayList<Events>();
     ArrayAdapter<Events> adaptadorEvento;
     private List<String> llave= new ArrayList<>();
     Events info;
@@ -136,17 +135,11 @@ public class manejoCalendario extends LinearLayout {
                 final EditText dest = agregarVista.findViewById(R.id.destino);
                 final EditText pasajeros = agregarVista.findViewById(R.id.numPasajero);
                 final TextView muestraTiempo= agregarVista.findViewById(R.id.mostrarTiempo);
-                ImageButton clock = agregarVista.findViewById(R.id.reloj);
+                final ImageButton clock = agregarVista.findViewById(R.id.reloj);
                 Button agregar = agregarVista.findViewById(R.id.botonsolicitud);
                 clock.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        origenStrin=orig.getText().toString().trim();
-                        destinoStrin=dest.getText().toString().trim();
-                        pasajeroBD= pasajeros.getText().toString().trim();
-
-//                        apiService= client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
                         Calendar calendar = Calendar.getInstance();
                         int horas = calendar.get(Calendar.HOUR_OF_DAY);
                         int minutos = calendar.get(Calendar.MINUTE);
@@ -174,12 +167,28 @@ public class manejoCalendario extends LinearLayout {
                 agregar.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        notify=true;
-                        guardarSolicitud(diaStrin,mesStrin,yearStrin,origenStrin,destinoStrin,pasajeroBD,eventoTiempo, fechaStrin);
-                        leerFecha();
-                        alerta.dismiss();
+                        origenStrin = orig.getText().toString().trim();
+                        destinoStrin = dest.getText().toString().trim();
+                        pasajeroBD = pasajeros.getText().toString().trim();
 
-                    }
+                        if(!origenStrin.isEmpty() && !destinoStrin.isEmpty() && !pasajeroBD.isEmpty() && !eventoTiempo.isEmpty()) {
+                            int pasagger=Integer.parseInt(pasajeroBD);
+                            if(pasagger>0 && pasagger<6) {
+                                notify = true;
+                                guardarSolicitud(diaStrin, mesStrin, yearStrin, origenStrin, destinoStrin, pasajeroBD, eventoTiempo, fechaStrin);
+                                leerFecha();
+                                alerta.dismiss();
+                            }
+                            else{
+                                Toast.makeText(getContext(), "COMO MÁXIMO PUEDE TENER 5 PASAJEROS", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getContext(), "DEBE LLENAR TODOS LOS DATOS DEL RECORRIDO", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        }
                 });
                 builder.setView(agregarVista);
                 alerta = builder.create();
@@ -283,6 +292,7 @@ public class manejoCalendario extends LinearLayout {
         infoSolicitud.put("mes",mes);
         infoSolicitud.put("año",year);
         infoSolicitud.put("estado",estado);
+        infoSolicitud.put("fecha",fecha);
         infoSolicitud.put("agendado",d);
         final String mensaje="prueba desde app";
         String  id =bdApp.push().getKey();

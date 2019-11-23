@@ -113,7 +113,6 @@ public class ActualizarActivity extends AppCompatActivity {
 
             case R.id.actualzar:
                 actualizaDatos();
-                Toast.makeText(this, "DATOS ACTUALIZADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
                 limpiarCajas();
                 break;
 
@@ -129,17 +128,30 @@ public class ActualizarActivity extends AppCompatActivity {
     }
 
     private void actualizaDatos() {
-        actualizarDatos actual = new actualizarDatos();
-        actual.setCorreo(mail.getText().toString().trim());
-        actual.setPassword(pass.getText().toString().trim());
-        actual.setTelefono(tel.getText().toString().trim());
-        actual.setArea(are.getText().toString().trim());
-        actual.setNombre(usuarioSeleccionado.getNombre());
-        actual.setApellido1(usuarioSeleccionado.getApellido1());
-        actual.setApellido2(usuarioSeleccionado.getApellido2());
-        actual.setCedula(usuarioSeleccionado.getCedula());
-        actual.setRol(usuarioSeleccionado.getRol());
-        bdApp.child("Usuarios").child(key).setValue(actual);
+
+        if(usuarioSeleccionado==null){
+            Toast.makeText(this, "DEBE SELECCIONAR UN USUARIO", Toast.LENGTH_SHORT).show();
+        }
+
+        else if(mail.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getCorreo()) && pass.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getPassword() ) && tel.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getTelefono()) && are.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getArea())) {
+            Toast.makeText(this, "DEBE MODIFICAR AL MENOS UN CAMPO", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            actualizarDatos actual = new actualizarDatos();
+            actual.setCorreo(mail.getText().toString().trim());
+            actual.setPassword(pass.getText().toString().trim());
+            actual.setTelefono(tel.getText().toString().trim());
+            actual.setArea(are.getText().toString().trim());
+            actual.setNombre(usuarioSeleccionado.getNombre());
+            actual.setApellido1(usuarioSeleccionado.getApellido1());
+            actual.setApellido2(usuarioSeleccionado.getApellido2());
+            actual.setCedula(usuarioSeleccionado.getCedula());
+            actual.setRol(usuarioSeleccionado.getRol());
+            bdApp.child("Usuarios").child(key).setValue(actual);
+            Toast.makeText(this, "DATOS ACTUALIZADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     public void limpiarCajas(){
