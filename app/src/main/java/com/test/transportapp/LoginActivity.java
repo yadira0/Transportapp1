@@ -113,17 +113,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
 
                 if(flag==1){
-                   // data.setNombre(informa);
 
-                    Intent next = new Intent(getApplication(), MainActivity.class);// DEBO BUSCAR PONER UNA BANDERA PARA ABRIR ACTIVIDAD
+                    Intent next = new Intent(getApplication(), MainActivity.class);
                     startActivity(next);
                 }
                 else if(flag==2){
-                    //data.setNombre(informa);
-
+                    Intent next = new Intent(getApplication(),UsuarioActivity.class);
+                    startActivity(next);
                 }
                 else if (flag==3){
-                    //data.setNombre(informa);
                     Intent next = new Intent(getApplication(), AgendaActivity.class);
                     startActivity(next);
                 }
@@ -131,8 +129,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                    Toast.makeText(LoginActivity.this,"No estás registrado comunicate con el administrador",Toast.LENGTH_SHORT).show();
                     Intent next = new Intent(getApplication(), LoginActivity.class);
                     startActivity(next);
-                   /* Intent next = new Intent(getApplication(), MainActivity.class);// DEBO BUSCAR PONER UNA BANDERA PARA ABRIR ACTIVIDAD
-                    startActivity(next);*/
                 }
 
             }

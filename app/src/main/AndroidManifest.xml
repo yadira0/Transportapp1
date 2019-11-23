@@ -9,19 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DatosUsuarioActivity"></activity>
+        <activity android:name=".UsuarioActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_sms_black_24dp" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
 
         <activity android:name=".AgendaConductor" />
         <activity android:name=".NovedadActivity" />
@@ -43,17 +42,16 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".notificaciones.FirebaseService"
+        <service
+            android:name=".notificaciones.FirebaseService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-
                 <action android:name="com.google.firebase.INSTANCE_ID_SERVICE" />
-
             </intent-filter>
-
         </service>
-        <service android:name=".notificaciones.MyFirebaseMessagingService"
+        <service
+            android:name=".notificaciones.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.dynamic.OnDelegateCreatedListener;
@@ -35,12 +36,14 @@ public class ActualizarActivity extends AppCompatActivity {
     private List<String> llaves= new ArrayList<>();
     private DatabaseReference bdApp;
     private String key;
-    private EditText mail,nombre;
-    private EditText pass,apel1;
+    private TextView mail;
+    private EditText nombre;
+    private EditText apel1;
     private EditText tel,apelli2;
     private EditText are,rol,cc;
     private ListView lista;
-
+    FirebaseUser user;
+    FirebaseAuth autenticacion;
     actualizarDatos usuarioSeleccionado;
 
     @Override
@@ -48,6 +51,7 @@ public class ActualizarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar);
         bdApp=FirebaseDatabase.getInstance().getReference();
+        autenticacion=FirebaseAuth.getInstance();
         capturaDatos();
         listarDatos();
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,7 +65,6 @@ public class ActualizarActivity extends AppCompatActivity {
     private void infoCajas(AdapterView<?> parent, int position) {
         usuarioSeleccionado =(actualizarDatos) parent.getItemAtPosition(position);
         mail.setText(usuarioSeleccionado.getCorreo());
-        pass.setText(usuarioSeleccionado.getPassword());
         tel.setText(usuarioSeleccionado.getTelefono());
         are.setText(usuarioSeleccionado.getArea());
         key=llaves.get(position);
@@ -69,24 +72,30 @@ public class ActualizarActivity extends AppCompatActivity {
 
     private void capturaDatos() {
         mail=findViewById(R.id.campoMailAc);
-        pass=findViewById(R.id.campoPassAc);
         tel=findViewById(R.id.campoTelefonoAc);
         are=findViewById(R.id.campoAreaAc);
         lista=findViewById(R.id.listaDatos);
     }
 
     public void listarDatos(){
-        bdApp.child("Usuarios").addValueEventListener(new ValueEventListener() {
+        final String usuar=autenticacion.getCurrentUser().getUid();
 
+        bdApp.child("Usuarios").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 actualizarD.clear();
                 for (DataSnapshot datos:dataSnapshot.getChildren()) {
                     actualizarDatos info =datos.getValue(actualizarDatos.class);
-                    actualizarD.add(info);
-                    adaptador= new ArrayAdapter<actualizarDatos>(ActualizarActivity.this,android.R.layout.simple_list_item_1, actualizarD);
-                    lista.setAdapter(adaptador);
-                    llaves.add(datos.getKey());
+                    if(usuar.equalsIgnoreCase(datos.getKey())){
+
+                    }
+                    else {
+                        actualizarD.add(info);
+                        adaptador= new ArrayAdapter<actualizarDatos>(ActualizarActivity.this,android.R.layout.simple_list_item_1, actualizarD);
+                        lista.setAdapter(adaptador);
+                        llaves.add(datos.getKey());
+                    }
+
                 }
             }
 
@@ -118,9 +127,15 @@ public class ActualizarActivity extends AppCompatActivity {
 
             case R.id.eliminar:
 
-                bdApp.child("Usuarios").child(key).removeValue();
-                Toast.makeText(this, "DATOS ELIMINADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
-                limpiarCajas();
+                if(key!=null) {
+
+                    bdApp.child("Usuarios").child(key).removeValue();
+                    Toast.makeText(this, "DATOS ELIMINADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+                    limpiarCajas();
+                }
+                else{
+                    Toast.makeText(this, "DEBE SELECCIONAR UN USUARIO A ELIMINAR", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
         }
@@ -133,13 +148,14 @@ public class ActualizarActivity extends AppCompatActivity {
             Toast.makeText(this, "DEBE SELECCIONAR UN USUARIO", Toast.LENGTH_SHORT).show();
         }
 
-        else if(mail.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getCorreo()) && pass.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getPassword() ) && tel.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getTelefono()) && are.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getArea())) {
+        else if(mail.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getCorreo()) && tel.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getTelefono()) && are.getText().toString().trim().equalsIgnoreCase(usuarioSeleccionado.getArea())) {
             Toast.makeText(this, "DEBE MODIFICAR AL MENOS UN CAMPO", Toast.LENGTH_SHORT).show();
         }
         else{
+
             actualizarDatos actual = new actualizarDatos();
-            actual.setCorreo(mail.getText().toString().trim());
-            actual.setPassword(pass.getText().toString().trim());
+            actual.setCorreo(usuarioSeleccionado.getCorreo());
+            actual.setPassword(usuarioSeleccionado.getPassword());
             actual.setTelefono(tel.getText().toString().trim());
             actual.setArea(are.getText().toString().trim());
             actual.setNombre(usuarioSeleccionado.getNombre());
@@ -148,6 +164,12 @@ public class ActualizarActivity extends AppCompatActivity {
             actual.setCedula(usuarioSeleccionado.getCedula());
             actual.setRol(usuarioSeleccionado.getRol());
             bdApp.child("Usuarios").child(key).setValue(actual);
+            /*user.updatePassword(pass.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                }
+            });*/
             Toast.makeText(this, "DATOS ACTUALIZADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
 
         }
@@ -156,7 +178,6 @@ public class ActualizarActivity extends AppCompatActivity {
 
     public void limpiarCajas(){
         mail.setText("");
-        pass.setText("");
         tel.setText("");
         are.setText("");
     }

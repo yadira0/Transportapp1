@@ -6,13 +6,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".ActualizarActivity">
+    android:layout_gravity="center_vertical"
+    android:padding="30dp"
+    tools:context=".DatosUsuarioActivity">
 
     <TextView
-        android:id="@+id/campoMailAc"
+        android:id="@+id/campoMailUser"
         android:layout_width="267dp"
         android:layout_height="39dp"
-        android:layout_marginTop="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="30dp"
+        android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
@@ -20,7 +24,17 @@
         android:selectAllOnFocus="true"></TextView>
 
     <EditText
-        android:id="@+id/campoTelefonoAc"
+        android:id="@+id/campoPassUser"
+        android:layout_width="267dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:hint="@string/prompt_password"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"></EditText>
+
+    <EditText
+        android:id="@+id/campoTelefonoUser"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -31,7 +45,7 @@
         android:selectAllOnFocus="true"></EditText>
 
     <EditText
-        android:id="@+id/campoAreaAc"
+        android:id="@+id/campoAreaUser"
         android:layout_width="267dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -40,20 +54,15 @@
         android:hint="@string/regArea"
         android:selectAllOnFocus="true"></EditText>
 
-    <TextView
-        android:id="@+id/etiqueta"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btActualizar"
+        android:layout_width="194dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="@string/etiqueta"
-        android:textColor="#4CAF50"
-        android:textColorHint="#4CAF50"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:hint="@string/menu_tools"
+        android:textColorHint="@android:color/white"></Button>
 
-    <ListView
-        android:id="@+id/listaDatos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </LinearLayout>
