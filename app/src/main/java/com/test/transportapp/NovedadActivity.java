@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,10 +16,15 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NovedadActivity extends AppCompatActivity {
@@ -30,6 +36,7 @@ public class NovedadActivity extends AppCompatActivity {
     private String actual;
     private String reemplazo;
     private String noveda;
+    private List<vehiculoDatos> datoVehiculo = new ArrayList<vehiculoDatos>();
 
     FirebaseAuth autenticacion;
     DatabaseReference bdApp;
@@ -68,28 +75,44 @@ public class NovedadActivity extends AppCompatActivity {
 
     }
 
-    public void registrarNovedad(){
+    public void registrarNovedad() {
+        int contador=datoVehiculo.size();
 
-        Map<String, Object> datos = new HashMap<>();
-        datos.put("vehiculo_averiado",actual);
-        datos.put("vehiculo_reemplazo", reemplazo);
-        datos.put("motivo",noveda);
+        boolean flag = false;
+        String datoObtenido = "";
+        listarDatos();
+        for (int incremento=0;incremento<contador;incremento++){
+             datoObtenido=datoVehiculo.get(incremento).getPlaca();
 
-        String  id =bdApp.push().getKey();
-        bdApp.child("Novedades").child(id).setValue(datos).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task1) {
-                if(task1.isSuccessful()){
-                    Toast.makeText(NovedadActivity.this,"SE HA REGISTRADO CORRECTAMENTE EL VEHICULO", Toast.LENGTH_SHORT).show();
-
-                }
-                else{
-                    Toast.makeText(NovedadActivity.this, "No se pudo registrar el vehículo en la BD", Toast.LENGTH_SHORT).show();
-
-                }
+            if (datoObtenido.equalsIgnoreCase(actual)) {
+                flag = true;
             }
-        });
+        }
 
+        if (flag == true) {
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("vehiculo_averiado", actual);
+            datos.put("vehiculo_reemplazo", reemplazo);
+            datos.put("motivo", noveda);
+
+            String id = bdApp.push().getKey();
+            bdApp.child("Novedades").child(id).setValue(datos).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task1) {
+                    if (task1.isSuccessful()) {
+                        Toast.makeText(NovedadActivity.this, "SE HA REGISTRADO CORRECTAMENTE LA NOVEDAD", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(NovedadActivity.this, "No se pudo registrar la novedad en la BD", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            });
+
+        }
+        else{
+            Toast.makeText(NovedadActivity.this, "LA PLACA INGRESADA NO CORRESPONDE A UN VEHICULO REGISTRADO", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,5 +135,24 @@ public class NovedadActivity extends AppCompatActivity {
         carrActual.setText("");
         carReemplazo.setText("");
         novedad.setText("");
+    }
+
+    public void listarDatos(){
+        final String usuar=autenticacion.getCurrentUser().getUid();
+
+        bdApp.child("Vehiculos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                datoVehiculo.clear();
+                for (DataSnapshot datos:dataSnapshot.getChildren()) {
+                    vehiculoDatos info =datos.getValue(vehiculoDatos.class);
+                    datoVehiculo.add(info);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

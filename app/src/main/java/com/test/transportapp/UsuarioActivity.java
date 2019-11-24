@@ -1,9 +1,12 @@
 package com.test.transportapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -37,7 +40,7 @@ public class UsuarioActivity extends AppCompatActivity {
 
         agendar=(Button) findViewById(R.id.agenda_recor);
         verAgen=(Button) findViewById(R.id.ver_book);
-        actualizar=(Button) findViewById(R.id.actuali_datos);
+       // actualizar=(Button) findViewById(R.id.actuali_datos);
         updateToken(FirebaseInstanceId.getInstance().getToken());
 
         agendar.setOnClickListener(new View.OnClickListener() {
@@ -52,18 +55,19 @@ public class UsuarioActivity extends AppCompatActivity {
         verAgen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent lanzar= new Intent(UsuarioActivity.this,AgendaConductor.class);
+                Intent lanzar= new Intent(UsuarioActivity.this,AgendaUsuarioActivity.class);
                 startActivity(lanzar);
 
             }
         });
 
-        actualizar.setOnClickListener(new View.OnClickListener() {
+       /* actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent lanzar = new Intent(UsuarioActivity.this,InicioActivity.class);
+                Intent lanzar = new Intent(UsuarioActivity.this,DatosUsuarioActivity.class);
+                startActivity(lanzar);
             }
-        });
+        });*/
     }
 
     public void updateToken (String tken){

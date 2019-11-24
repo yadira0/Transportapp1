@@ -83,7 +83,7 @@ public class VehiculoActivity extends AppCompatActivity {
                     datos.put("marca",mar);
                     datos.put("modelo", mode);
                     datos.put("placa", plac);
-                    datos.put("no Pasajeros",pasajeros);
+                    datos.put("no_Pasajeros",pasajeros);
                     datos.put("area_vehiculo",areaVehiculo);
 
                     String  id =bdApp.push().getKey();

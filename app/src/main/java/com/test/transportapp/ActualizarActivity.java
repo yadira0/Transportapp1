@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,12 +37,14 @@ public class ActualizarActivity extends AppCompatActivity {
     private List<String> llaves= new ArrayList<>();
     private DatabaseReference bdApp;
     private String key;
+    private String tipoRolAct;
     private TextView mail;
     private EditText nombre;
     private EditText apel1;
     private EditText tel,apelli2;
     private EditText are,rol,cc;
     private ListView lista;
+    private Spinner rolActual;
     FirebaseUser user;
     FirebaseAuth autenticacion;
     actualizarDatos usuarioSeleccionado;
@@ -50,6 +53,7 @@ public class ActualizarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar);
+
         bdApp=FirebaseDatabase.getInstance().getReference();
         autenticacion=FirebaseAuth.getInstance();
         capturaDatos();
@@ -63,10 +67,12 @@ public class ActualizarActivity extends AppCompatActivity {
     }
 
     private void infoCajas(AdapterView<?> parent, int position) {
+
         usuarioSeleccionado =(actualizarDatos) parent.getItemAtPosition(position);
         mail.setText(usuarioSeleccionado.getCorreo());
         tel.setText(usuarioSeleccionado.getTelefono());
         are.setText(usuarioSeleccionado.getArea());
+
         key=llaves.get(position);
     }
 
@@ -75,6 +81,7 @@ public class ActualizarActivity extends AppCompatActivity {
         tel=findViewById(R.id.campoTelefonoAc);
         are=findViewById(R.id.campoAreaAc);
         lista=findViewById(R.id.listaDatos);
+
     }
 
     public void listarDatos(){
@@ -180,6 +187,7 @@ public class ActualizarActivity extends AppCompatActivity {
         mail.setText("");
         tel.setText("");
         are.setText("");
+
     }
 
 }

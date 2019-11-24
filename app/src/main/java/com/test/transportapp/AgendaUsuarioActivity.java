@@ -22,18 +22,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgendaConductor extends AppCompatActivity {
-    private List<DatosObtenidosSolicitud> datosAgenda2 = new ArrayList<DatosObtenidosSolicitud>();
-    ArrayAdapter<DatosObtenidosSolicitud> adaptador2;
+public class AgendaUsuarioActivity extends AppCompatActivity {
+    private List<DatosObtenidosSolicitud> datosAgenda1 = new ArrayList<DatosObtenidosSolicitud>();
+    ArrayAdapter<DatosObtenidosSolicitud> adaptador1;
     private List<String> llaves = new ArrayList<>();
     private DatabaseReference bdApp;
     private String key;
-    private TextView origen2, destino2;
-    private TextView hora2, fecha2;
+    private TextView origen1, destino1;
+    private TextView hora1, fecha1;
 
     private ListView listado;
 
-    DatosObtenidosSolicitud viajeSeleccionado2;
+    DatosObtenidosSolicitud viajeSeleccionado1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +51,18 @@ public class AgendaConductor extends AppCompatActivity {
     }
 
     private void infoCajas(AdapterView<?> parent, int position) {
-        viajeSeleccionado2 = (DatosObtenidosSolicitud) parent.getItemAtPosition(position);
-        destino2.setText(viajeSeleccionado2.getDestino());
-        hora2.setText(viajeSeleccionado2.getHora());
-        fecha2.setText(viajeSeleccionado2.getFecha());
+        viajeSeleccionado1 = (DatosObtenidosSolicitud) parent.getItemAtPosition(position);
+        destino1.setText(viajeSeleccionado1.getDestino());
+        hora1.setText(viajeSeleccionado1.getHora());
+        fecha1.setText(viajeSeleccionado1.getFecha());
         key = llaves.get(position);
     }
 
     private void capturaDatos() {
-        destino2 = findViewById(R.id.campoDestino);
-        hora2 = findViewById(R.id.campoHora);
-        fecha2 = findViewById(R.id.campoFecha);
+        destino1 = findViewById(R.id.campoDestino);
+        hora1 = findViewById(R.id.campoHora);
+        fecha1 = findViewById(R.id.campoFecha);
+
         listado = findViewById(R.id.listaInfo);
     }
 
@@ -70,12 +71,12 @@ public class AgendaConductor extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                datosAgenda2.clear();
+                datosAgenda1.clear();
                 for (DataSnapshot datos : dataSnapshot.getChildren()) {
                     DatosObtenidosSolicitud info = datos.getValue(DatosObtenidosSolicitud.class);
-                    datosAgenda2.add(info);
-                    adaptador2 = new ArrayAdapter<DatosObtenidosSolicitud>(AgendaConductor.this, android.R.layout.simple_list_item_1, datosAgenda2);
-                    listado.setAdapter(adaptador2);
+                    datosAgenda1.add(info);
+                    adaptador1 = new ArrayAdapter<DatosObtenidosSolicitud>(AgendaUsuarioActivity.this, android.R.layout.simple_list_item_1, datosAgenda1);
+                    listado.setAdapter(adaptador1);
                     llaves.add(datos.getKey());
                 }
             }
@@ -97,7 +98,7 @@ public class AgendaConductor extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.atras:
-                Intent lanzar = new Intent(AgendaConductor.this, AgendaActivity.class);
+                Intent lanzar = new Intent(AgendaUsuarioActivity.this, UsuarioActivity.class);
                 startActivity(lanzar);
                 break;
         }

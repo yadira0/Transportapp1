@@ -55,7 +55,7 @@
         android:selectAllOnFocus="true"></EditText>
 
     <Button
-        android:id="@+id/btActualizar"
+        android:id="@+id/btActualizarDat"
         android:layout_width="194dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

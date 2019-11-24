@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 public class DatosObtenidosSolicitud {
 
-    String origen, destino, hora, fechaComplete;
+    String origen, destino, hora, fecha;
 
 
     public DatosObtenidosSolicitud() {
@@ -35,12 +35,12 @@ public class DatosObtenidosSolicitud {
         this.hora = hora;
     }
 
-    public String getFechaComplete() {
-        return fechaComplete;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setFechaComplete(String fechaComplete) {
-        this.fechaComplete = fechaComplete;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     @NonNull

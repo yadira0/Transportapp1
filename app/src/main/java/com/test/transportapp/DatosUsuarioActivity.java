@@ -3,13 +3,18 @@ package com.test.transportapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,13 +31,15 @@ public class DatosUsuarioActivity extends AppCompatActivity {
     private TextView correo;
     private EditText passwor,telefo,area;
     private Button actualiza;
-    private String email, password, telefono, depto,uID;
+    //private String email, pass, cel, are, nomb, cc, rolin, ape1,ape2,uID;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
     private DatabaseReference bdApp;
     FirebaseUser user;
     FirebaseAuth autenticacion;
     actualizarDatos datosUsuario;
-    private List<actualizarDatos> actualizarDat = new ArrayList<actualizarDatos>();
-
+    private List<String> actualizarDat = new ArrayList<String>();
+    String key1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +48,43 @@ public class DatosUsuarioActivity extends AppCompatActivity {
         bdApp= FirebaseDatabase.getInstance().getReference();
         autenticacion=FirebaseAuth.getInstance();
         user=autenticacion.getCurrentUser();
-        uID=autenticacion.getCurrentUser().getUid();
+        database =FirebaseDatabase.getInstance();
+        reference=database.getReference("Usuarios").child(user.getUid());
+
+        //uID=autenticacion.getCurrentUser().getUid();
         infoCajas();
-        capturaDatos();
+        actualiza=(Button) findViewById(R.id.btActualizarDat);
+        actualiza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                capturaDatos();
+            }
+        });
+
+
 
     }
 
     private void infoCajas() {
-        bdApp.child("Usuarios").addValueEventListener(new ValueEventListener() {
 
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
 
-                for (DataSnapshot datos:dataSnapshot.getChildren()) {
-                    actualizarDatos info =datos.getValue(actualizarDatos.class);
-                    if(datos.getKey() == uID){
-                        actualizarDat.add(info);
-                    }
+                    actualizarDat.add((String) dataSnapshot.child("correo").getValue());
+
+                    actualizarDat.add((String) dataSnapshot.child("password").getValue());
+
+                    actualizarDat.add((String) dataSnapshot.child("telefono").getValue());
+
+                    actualizarDat.add((String) dataSnapshot.child("area").getValue());
+
+                    actualizarDat.add((String) dataSnapshot.child("nombre").getValue());
+                    actualizarDat.add((String) dataSnapshot.child("apellido1").getValue());
+                    actualizarDat.add((String) dataSnapshot.child("apellido2").getValue());
+                    actualizarDat.add((String) dataSnapshot.child("rol").getValue());
+                    actualizarDat.add((String) dataSnapshot.child("cedula").getValue());
                 }
             }
 
@@ -66,10 +93,12 @@ public class DatosUsuarioActivity extends AppCompatActivity {
 
             }
         });
-        correo.setText(actualizarDat.get(0).getCorreo());
-        passwor.setText(actualizarDat.get(0).getPassword());
-        telefo.setText(actualizarDat.get(0).getTelefono());
-        area.setText(actualizarDat.get(0).getArea());
+
+        correo.setText(actualizarDat.get(0));
+        passwor.setText(actualizarDat.get(0));
+        telefo.setText(actualizarDat.get(0));
+        area.setText(actualizarDat.get(0));
+
     }
 
     private void capturaDatos() {
@@ -77,5 +106,53 @@ public class DatosUsuarioActivity extends AppCompatActivity {
         telefo = ((EditText) findViewById(R.id.campoTelefonoUser));
         area=(EditText) findViewById(R.id.campoAreaUser);
         passwor=(EditText) findViewById(R.id.campoPassUser);
+    }
+
+    /*private void actualizar(){
+
+        if(correo.getText().toString().trim().equalsIgnoreCase(email) && telefo.getText().toString().trim().equalsIgnoreCase(cel)
+                && area.getText().toString().trim().equalsIgnoreCase(are) && passwor.getText().toString().trim().equalsIgnoreCase(pass)) {
+
+            Toast.makeText(this, "DEBE MODIFICAR AL MENOS UN CAMPO", Toast.LENGTH_SHORT).show();
+        }
+        else{
+
+            actualizarDatos actualizacion = new actualizarDatos();
+            actualizacion.setPassword(passwor.getText().toString().trim());
+            actualizacion.setTelefono(telefo.getText().toString().trim());
+            actualizacion.setArea(area.getText().toString().trim());
+            actualizacion.setNombre(nomb);
+            actualizacion.setApellido1(ape1);
+            actualizacion.setApellido2(ape2);
+            actualizacion.setCedula(cc);
+            actualizacion.setRol(rolin);
+
+            bdApp.child("Usuarios").child(key1).setValue(actualizacion);
+            user.updatePassword(passwor.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                }
+            });
+
+            Toast.makeText(this, "DATOS ACTUALIZADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+
+        }
+    }*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.boton, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.atras:
+                Intent lanzar = new Intent(DatosUsuarioActivity.this,UsuarioActivity.class);
+                startActivity(lanzar);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

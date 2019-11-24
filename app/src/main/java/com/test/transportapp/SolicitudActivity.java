@@ -57,7 +57,7 @@ public class SolicitudActivity extends AppCompatActivity {
         viajeSeleccionado = (DatosObtenidosSolicitud) parent.getItemAtPosition(position);
         destino.setText(viajeSeleccionado.getDestino());
         hora.setText(viajeSeleccionado.getHora());
-        fecha.setText(viajeSeleccionado.getFechaComplete());
+        fecha.setText(viajeSeleccionado.getFecha());
       //  key = llaves.get(position);
     }
 

@@ -30,4 +30,6 @@ public class InicioActivity extends AppCompatActivity {
             }
         });*/
     }
+
+
 }
