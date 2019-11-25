@@ -20,22 +20,37 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.test.transportapp.notificaciones.APIService;
+import com.test.transportapp.notificaciones.Data;
+import com.test.transportapp.notificaciones.Response;
+import com.test.transportapp.notificaciones.Sender;
+import com.test.transportapp.notificaciones.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class NovedadActivity extends AppCompatActivity {
 
     private EditText carrActual;
+    APIService apiService;
     private EditText carReemplazo;
     private EditText novedad;
     private Button registro;
     private String actual;
-    private String reemplazo;
-    private String noveda;
+    private String reemplazo, administrador;
+    private String noveda, idKey=null;
+    private Boolean notify=false;
+    private List<String> roles = new ArrayList<>();
+    private List<String> llaves= new ArrayList<>();
+    private List<String> area= new ArrayList<>();
+    private List<String> ids= new ArrayList<>();
     private List<vehiculoDatos> datoVehiculo = new ArrayList<vehiculoDatos>();
 
     FirebaseAuth autenticacion;
@@ -47,6 +62,7 @@ public class NovedadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_novedad);
         autenticacion= FirebaseAuth.getInstance();
         bdApp= FirebaseDatabase.getInstance().getReference();
+        idKey= autenticacion.getCurrentUser().getUid();
 
         carrActual=(EditText)findViewById(R.id.carro_novedad);
         carReemplazo= (EditText)findViewById(R.id.carro_reemplazo);
@@ -90,28 +106,73 @@ public class NovedadActivity extends AppCompatActivity {
         }
 
         if (flag == true) {
+            final String mensaje="Novedad: "+"Vehiculo averidado: "+actual+"\n vehiculo de reemplazo: "+reemplazo+
+                    "\n motivo novedad: "+noveda;
+            notify = true;
             Map<String, Object> datos = new HashMap<>();
             datos.put("vehiculo_averiado", actual);
             datos.put("vehiculo_reemplazo", reemplazo);
             datos.put("motivo", noveda);
 
+
             String id = bdApp.push().getKey();
+            bdApp.child("Usuarios").addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot datos : dataSnapshot.getChildren()) {
+                        datosObtenidosLogin info = datos.getValue(datosObtenidosLogin.class);
+                        roles.add(info.getRol());
+                        llaves.add(datos.getKey());
+                        area.add(info.getArea());
+                        ids.add(info.getNombre());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
             bdApp.child("Novedades").child(id).setValue(datos).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task1) {
                     if (task1.isSuccessful()) {
-                        Toast.makeText(NovedadActivity.this, "SE HA REGISTRADO CORRECTAMENTE LA NOVEDAD", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NovedadActivity.this, "Novedad registrada", Toast.LENGTH_LONG).show();
+
+                        final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Usuarios").child(idKey);
+                        database.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                infoMensaje user = dataSnapshot.getValue(infoMensaje.class);
+
+
+                                for (int i = 0; i < roles.size(); i++) {
+                                    if (roles.get(i).equalsIgnoreCase("Admin") && area.get(i).equalsIgnoreCase(user.getArea())) {
+                                        administrador = llaves.get(i);
+                                    } else if (notify) {
+                                        sendNotification(administrador, user.getNombre(), mensaje);
+                                        sendNotification(user.getUid(), user.getNombre(), mensaje);
+
+                                    }
+                                    notify = false;
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
 
                     } else {
-                        Toast.makeText(NovedadActivity.this, "No se pudo registrar la novedad en la BD", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(NovedadActivity.this, "LA PLACA INGRESADA NO CORRESPONDE A UN VEHICULO REGISTRADO", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
-        }
-        else{
-            Toast.makeText(NovedadActivity.this, "LA PLACA INGRESADA NO CORRESPONDE A UN VEHICULO REGISTRADO", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
@@ -149,6 +210,38 @@ public class NovedadActivity extends AppCompatActivity {
                     datoVehiculo.add(info);
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void sendNotification(final String mUID, final String nombre, final String mensaje) {
+        DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = allTokens.orderByKey().equalTo(autenticacion.getUid());//VA EL ID DEL DESTINATARIO
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    Token token = ds.getValue(Token.class);
+                    Data data = new Data(mUID, nombre+":"+mensaje, "Nuevo Mensaje", mUID,R.drawable.ic_sms_black_24dp);
+                    Sender sender = new Sender(data,token.getToken());
+                    apiService.sendNotification(sender).enqueue(new Callback<Response>() {
+                        @Override
+                        public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Response> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

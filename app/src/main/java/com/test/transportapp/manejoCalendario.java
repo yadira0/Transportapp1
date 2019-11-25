@@ -62,6 +62,7 @@ public class manejoCalendario extends LinearLayout {
 
     APIService apiService;
     String mUID;
+    String conduc;
     boolean notify = false;
     ImageButton atras, adelante;
     TextView fecha;
@@ -71,25 +72,31 @@ public class manejoCalendario extends LinearLayout {
     String eventoTiempo;
     String pasajeroBD;
     String id;
-    String token1;
-    final String[] prueba = new String[1];
+    String token1,agendador;
+
+
     private static final int DIAS_MAXIMO_CALENDARIO = 42;
-    Calendar calendario= Calendar.getInstance(Locale.ENGLISH);
+    Calendar calendario = Calendar.getInstance(Locale.ENGLISH);
     Context contexto;
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("MMMM yyyy",Locale.ENGLISH);
-    SimpleDateFormat formatoMes = new SimpleDateFormat("MMMM",Locale.ENGLISH);
-    SimpleDateFormat formatoYear = new SimpleDateFormat("yyyy",Locale.ENGLISH);
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+    SimpleDateFormat formatoMes = new SimpleDateFormat("MMMM", Locale.ENGLISH);
+    SimpleDateFormat formatoYear = new SimpleDateFormat("yyyy", Locale.ENGLISH);
     SimpleDateFormat formatodia = new SimpleDateFormat("dd", Locale.ENGLISH);
-    SimpleDateFormat eventoFormato= new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    SimpleDateFormat eventoFormato = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     AlertDialog alerta;
-    List<Date> fechas=new ArrayList<>();
+    List<Date> fechas = new ArrayList<>();
     List<Events> eventos = new ArrayList<>();
     adaptadorCeldas adaptadorCeldas;
     datosObtenidosLogin informacion;
     FirebaseAuth autenticacion;
     DatabaseReference bdApp;
     ArrayAdapter<Events> adaptadorEvento;
-    private List<String> llave= new ArrayList<>();
+    private List<String> llave = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
+    private List<String> llaves= new ArrayList<>();
+    private List<String> area= new ArrayList<>();
+    private List<String> ids= new ArrayList<>();
+
     Events info;
     String idKey = null;
 
@@ -256,7 +263,6 @@ public class manejoCalendario extends LinearLayout {
 
     private void guardarSolicitud(String dia, String mes, String year, String origin, final String destination, String pasajeroBD, String hora, String fecha ){
 
-        String estado = "disponible";
 
         idKey= autenticacion.getCurrentUser().getUid();
 
@@ -267,12 +273,10 @@ public class manejoCalendario extends LinearLayout {
 
                 for (DataSnapshot datos : dataSnapshot.getChildren()) {
                     datosObtenidosLogin info = datos.getValue(datosObtenidosLogin.class);
-                    if (datos.getKey().equalsIgnoreCase(idKey)) {
-                        prueba[0] = info.getNombre();
-                    }
-                    if(info.rol.equalsIgnoreCase("conductor")){
-                        token1= FirebaseInstanceId.getInstance().getToken();
-                    }
+                    roles.add(info.getRol());
+                    llaves.add(datos.getKey());
+                    area.add(info.getArea());
+                    ids.add(info.getNombre());
                 }
             }
 
@@ -282,7 +286,13 @@ public class manejoCalendario extends LinearLayout {
             }
         });
 
-        String d= prueba[0];
+        for(int i=0;i<llaves.size();i++){
+            if(idKey.equalsIgnoreCase(llaves.get(i))){
+//                posis=i;
+            }
+        }
+
+//        agendador=ids.get(posis);
         final Map<String, Object> infoSolicitud = new HashMap<>();
         infoSolicitud.put("origen",origin);
         infoSolicitud.put("destino",destination);
@@ -291,28 +301,61 @@ public class manejoCalendario extends LinearLayout {
         infoSolicitud.put("dia",dia);
         infoSolicitud.put("mes",mes);
         infoSolicitud.put("año",year);
-        infoSolicitud.put("estado",estado);
+
         infoSolicitud.put("fecha",fecha);
-        infoSolicitud.put("agendado",d);
-        final String mensaje="prueba desde app";
-        String  id =bdApp.push().getKey();
+  //      infoSolicitud.put("agendado",agendador);
+        final String mensaje="Recorrido agendado:\n Destino:"+destination+"\n Origen:"+origin+"\n fecha:"+fecha;
 
-        bdApp.child("Recorridos").child(id).setValue(infoSolicitud).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task1) {
 
-                if(task1.isSuccessful()){
-                    Toast.makeText(contexto,"Recorrido asignado", Toast.LENGTH_LONG).show();
+        //bdApp.child("Recorridos").child(id).setValue(infoSolicitud).addOnCompleteListener(new OnCompleteListener<Void>() {
+          //  @Override
+            //public void onComplete(@NonNull Task<Void> task1) {
+
+                //if(task1.isSuccessful()){
+                  //  Toast.makeText(contexto,"Recorrido asignado", Toast.LENGTH_LONG).show();
 
                     final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Usuarios").child(idKey);
                     database.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            infoMensaje user = dataSnapshot.getValue(infoMensaje.class);
-                            if(notify){
-                                sendNotification(mUID,user.getNombre(),mensaje);
-                            }
-                            notify=false;
+                            final infoMensaje user = dataSnapshot.getValue(infoMensaje.class);
+
+                            if(user.getRol().equalsIgnoreCase("Conductor") && user.getArea().equalsIgnoreCase(user.getArea())){
+
+                                }
+
+                            final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Usuarios");
+                            database.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                                    for(DataSnapshot datos:dataSnapshot1.getChildren()) {
+                                        actualizarDatos info = datos.getValue(actualizarDatos.class);
+                                        if(info.getArea().equalsIgnoreCase(user.getArea())){
+                                            String estado="Ocupado";
+                                            infoSolicitud.put("estado",estado);
+                                            String  id =bdApp.push().getKey();
+
+
+                                            bdApp.child("Recorridos").child(id).setValue(infoSolicitud).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(notify){
+                                                        sendNotification(mUID,user.getNombre(),mensaje);
+                                                        sendNotification(conduc,user.getNombre(),mensaje);
+                                                    }
+                                                    notify=false;
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
                         }
 
@@ -321,17 +364,13 @@ public class manejoCalendario extends LinearLayout {
 
                         }
                     });
-                    //Log.e("Token", String.valueOf(infoSolicitud));
-                    //Log.e("Token", token1); // crear un list para despues acceder a los datos
 
-//
-
-                }
-                else{
+                //}
+                /*else{
                     Toast.makeText(contexto,"Hubo un error, intente nuevamente", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+                }*/
+          //  }
+        //});
     }
 
     private void sendNotification(final String mUID, final String nombre, final String mensaje) {

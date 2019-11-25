@@ -93,15 +93,12 @@ public class ActualizarActivity extends AppCompatActivity {
                 actualizarD.clear();
                 for (DataSnapshot datos:dataSnapshot.getChildren()) {
                     actualizarDatos info =datos.getValue(actualizarDatos.class);
-                    if(usuar.equalsIgnoreCase(datos.getKey())){
 
-                    }
-                    else {
                         actualizarD.add(info);
                         adaptador= new ArrayAdapter<actualizarDatos>(ActualizarActivity.this,android.R.layout.simple_list_item_1, actualizarD);
                         lista.setAdapter(adaptador);
                         llaves.add(datos.getKey());
-                    }
+
 
                 }
             }

@@ -11,7 +11,7 @@ public class actualizarDatos {
     String password;
     String telefono;
     String area;
-    String rol;
+    String rol,uid;
 
     public actualizarDatos() {
 
@@ -67,6 +67,13 @@ public class actualizarDatos {
         this.area = area;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getApellido1() {
         return apellido1;

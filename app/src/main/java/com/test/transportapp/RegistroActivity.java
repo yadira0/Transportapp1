@@ -116,7 +116,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-
+                    String id = autenticacion.getCurrentUser().getUid();
                     Map<String, Object> datos = new HashMap<>();
                     datos.put("nombre",nom);
                     datos.put("apellido1", ape);
@@ -127,8 +127,9 @@ public class RegistroActivity extends AppCompatActivity {
                     datos.put("rol", tipoRol);
                     datos.put("correo",mail);
                     datos.put("password", password);
+                    datos.put("uid",id);
 
-                    String id = autenticacion.getCurrentUser().getUid();
+
                     bdApp.child("Usuarios").child(id).setValue(datos).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task1) {
